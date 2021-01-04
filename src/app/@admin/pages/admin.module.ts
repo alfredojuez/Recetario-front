@@ -3,10 +3,13 @@ import { CommonModule } from '@angular/common';
 
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
+import { CabeceraComponent } from '../core/components/cabecera/cabecera.component';
+import { TituloComponent } from '../core/components/titulo/titulo.component';
+import { BarralateralComponent } from '../core/components/barralateral/barralateral.component';
 
 
 @NgModule({
-  declarations: [AdminComponent],
+  declarations: [AdminComponent, CabeceraComponent,TituloComponent, BarralateralComponent],
   imports: [
     CommonModule,
     AdminRoutingModule
