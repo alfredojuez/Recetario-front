@@ -1,11 +1,11 @@
 <div class="d-flex" id="wrapper">
   <!-- Sidebar -->
-  <app-admin-barralateral> </app-admin-barralateral>
+  <app-admin-barralateral *ngIf="puedoMostrarMenu"> </app-admin-barralateral>
   <!-- FIN Sidebar -->
 
   <!-- Page Content -->
   <div id="page-content-wrapper">
-    <app-admin-cabecera></app-admin-cabecera>
+    <app-admin-cabecera (eventoMostrarMenu)="mostrarMenu($event)"></app-admin-cabecera>
     <app-admin-titulo></app-admin-titulo>
   </div>
   <!-- /#page-content-wrapper -->
