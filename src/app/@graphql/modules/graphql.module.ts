@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { Apollo, ApolloModule } from 'apollo-angular';
 import { HttpLink, HttpLinkModule } from 'apollo-angular-link-http'
@@ -31,8 +31,15 @@ export class GraphqlModule {
 
         //URL del playground de GraphQL
         const uri = 'http://localhost:2004/graphql';
-        const link = ApolloLink.from ([errorLink, httpLink.create({uri})]);
-        apollo.create({link, cache: new InMemoryCache});
+        const link = ApolloLink.from (
+          [
+            errorLink, 
+            httpLink.create({uri})
+          ]);
+        apollo.create({
+          link, 
+          cache: new InMemoryCache()
+        });
       });
   };
 }
