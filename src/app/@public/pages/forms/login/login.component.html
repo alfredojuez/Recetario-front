@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="row">
+      <div class="col-lg"></div>
+      <div class="col-lg-6">
+        <form (ngSubmit)="init()" #formLogin="ngForm">
+          <h1>Inicio de sesión</h1>
+          <p>Introduzca los credenciales para iniciar la sesión</p>
+          <p class="psw">
+            ¿No tienes cuenta? Entra
+            <a href="#">aquí</a> para crearla gratis
+          </p>
+          <hr />
+          <label for="email"><b>Correo electrónico/usuario</b></label>
+          <input
+            type="email"
+            #email="ngModel"
+            class="form-control"
+            [(ngModel)]="login.email"
+            placeholder="Introduzca correo electrónico / nombre de usuario"
+            name="email"
+            [ngClass]="{'is-valid': !email.invalid, 'is-invalid': email.invalid}"
+            required
+          />
+          <div *ngIf="email.invalid && (email.dirty || email.touched)">
+          <small class="help-block m-b-none text-danger" style="float:right">
+              El email o nombre de usuario es obligatorio.
+          </small>
+        </div>
+<br>
+          <label for="pass"><b>Contraseña</b></label>
+          <input
+          class="form-control"
+            type="password"
+            #pass="ngModel"
+            class="form-control"
+            [(ngModel)]="login.pass"
+            placeholder="Introduzca la contraseña"
+            name="pass"
+            [ngClass]="{'is-valid': !email.invalid, 'is-invalid': email.invalid}"
+            required
+          />
+          <div *ngIf="pass.invalid && (pass.dirty || pass.touched)">
+            <small *ngIf="pass.errors.required"
+                class="help-block m-b-none text-danger" style="float:right">
+                La contraseña es obligatoria.
+            </small>
+            
+          </div>
+<br>
+
+          <div class="row">
+            <div class="col-lg">
+              <button type="submit" [disabled]="!formLogin.valid" class="signup-btn">Iniciar sesión</button>
+            </div>
+          </div>
+          <div class="more-options">
+            <p class="psw">
+              ¿Has olvidado la <a [routerLink]="['/forgot']">contraseña?</a>
+            </p>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg"></div>
+    </div>
