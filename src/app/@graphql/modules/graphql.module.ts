@@ -16,8 +16,6 @@ import { onError } from 'apollo-link-error';
 export class GraphqlModule { 
   constructor(apollo: Apollo, httpLink: HttpLink){
       //Para capturar los errores de consulta y/o de red
-      
-     
       const errorLink = onError(({graphQLErrors, networkError}) =>{
         if(graphQLErrors)
         {
@@ -28,18 +26,18 @@ export class GraphqlModule {
         {
           console.log(`Errores de RED: ${networkError}`)
         }
+      });
 
-        //URL del playground de GraphQL
-        const uri = 'http://localhost:2004/graphql';
-        const link = ApolloLink.from (
-          [
-            errorLink, 
-            httpLink.create({uri})
-          ]);
-        apollo.create({
-          link, 
-          cache: new InMemoryCache()
-        });
+      //URL del playground de GraphQL
+      const uri = 'http://localhost:2004/graphql';
+      const link = ApolloLink.from (
+        [
+          errorLink, 
+          httpLink.create({uri})
+        ]);
+      apollo.create({
+        link, 
+        cache: new InMemoryCache()
       });
   };
 }

@@ -9,6 +9,11 @@
 
       "@admin/*": ["src/app/@admin/*"],
       "@admin-core/*": ["src/app/@admin/core/*"],
+
+      "@graphql/*":["src/app/@graphql/*"],
+
+      "@core/*":["src/app/@core/*"],
+
     },
     // fin rutas
     "outDir": "./dist/out-tsc",

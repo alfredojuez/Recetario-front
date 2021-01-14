@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '@core/services/auth.service';
+import { UsersService } from '@core/services/users.service';
 import { ApiService } from 'src/app/@graphql/services/api.service';
 
 @Component({
@@ -8,15 +10,22 @@ import { ApiService } from 'src/app/@graphql/services/api.service';
 })
 export class InicioComponent implements OnInit {
 
-  constructor(private api: ApiService) { }
+  // private auth: AuthService ->  para hacer uso del API.LOGIN
+  constructor(private usersApi: UsersService, private auth: AuthService) { }
 
   ngOnInit(): void {
-    console.log("Estoy en el init");
-    this.api.login('alfredojuez@hotmail.com',
+    this.auth.login('alfredojuez',
                    'alfredojuez').subscribe(result => {
       console.log(result);
     });
 
+    this.usersApi.getUsuarios().subscribe(result => {
+          console.log(result);
+      });
+
+    this.auth.getMe().subscribe(result => {
+      console.log(result);
+  });
   }
 
 }
