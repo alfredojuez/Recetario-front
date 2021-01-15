@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IMeData } from '@core/interfaces/session.interface';
 import { AuthService } from '@core/services/auth.service';
 
@@ -17,21 +18,19 @@ export class BarralateralComponent implements OnInit {
   perfil: string;
   userLabel = '';
 
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private router: Router) {
     this.authService.accessVar$.subscribe((result: IMeData) => {
-      console.log('ESTADO: ' + result.status);
       this.session = result;
       this.tengoAcceso = this.session.status;
       this.perfil = (this.session.usuario) ? this.session.usuario.perfil : 'USER';
       this.userLabel = (this.session.usuario) ? `${this.session.usuario.nombre} ${this.session.usuario.apellidos}` : 'USUARIO VISITANTE';
-
-      console.log('USUARIO: ' + this.userLabel);
     });
   }
 
   logout()
   {
     this.authService.resetSession();
+    this.router.navigate(['/']);
   }
 
   ngOnInit(): void {

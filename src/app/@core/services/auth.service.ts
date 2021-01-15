@@ -81,13 +81,9 @@ export class AuthService extends ApiService {
     localStorage.setItem('session', JSON.stringify(session));
   }
 
-  getSession() {
-      // return JSON.parse(localStorage.getItem('session'));
+  getSession(): ISession {
       const sesion = JSON.parse(localStorage.getItem('session'));
-      console.log(sesion);
-      const respuesta = (sesion !== null) ?  sesion : { expiresIn: '', token: '' };
-
-      return respuesta;
+      return  (sesion !== null) ?  sesion : { expiresIn: '', token: '' };
   }
 
   resetSession() {

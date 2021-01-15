@@ -3,6 +3,7 @@ import { AuthService } from '@core/services/auth.service';
 import { ILoginForm, IResultLogin } from '@core/interfaces/login.interface';
 import { basicAlert, topRightAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class LoginComponent {
     pass: ''
   };
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService,  private router: Router) { }
 
   init(){
     this.auth.login(this.login.email, this.login.pass).subscribe(
@@ -29,6 +30,7 @@ export class LoginComponent {
         this.auth.setSession(result.token, 8);            // guardamos la sesión durante 8 horas
         this.auth.updateSesion(result);
         basicAlert(TYPE_ALERT.SUCCESS, 'Acceso concedido', result.message) ;  // informacion de login correcto.
+        this.router.navigate(['/']);
       }
       else
       {
