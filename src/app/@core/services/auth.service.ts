@@ -92,5 +92,6 @@ export class AuthService extends ApiService {
 
   resetSession() {
     localStorage.removeItem('session');
+    this.updateSesion({status: false});
   }
 }
