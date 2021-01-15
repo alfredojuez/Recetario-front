@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
         console.log('TOKEN: ');
         console.log(result.token);
         this.auth.setSession(result.token, 8);            // guardamos la sesión durante 8 horas
+        this.auth.updateSesion(result);
         basicAlert(TYPE_ALERT.SUCCESS, result.message) ;  // informacion de login correcto.
       }
       else

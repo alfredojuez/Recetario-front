@@ -2,15 +2,20 @@ import gql from 'graphql-tag';
 import { USUARIO_FRAGMENT } from '@graphql/operations/fragment/Usuario';
 
 export const LOGIN_QUERY = gql`
-    query getLogin($user:String!, $pass: String!)
+    query getLogin($user:String!, $pass: String!, $include: Boolean!)
     {
       login(email: $user, pass: $pass)
       {
         status
         message
         token
+        usuario
+        {
+          ...UserObject
+        }
       }
     }
+    ${ USUARIO_FRAGMENT}
 `;
 
 export const LISTA_USUARIOS_QUERY = gql`
@@ -19,7 +24,7 @@ query ListaUsuarios ($include: Boolean!)
    ListadoUsuarios{
     status
     message
-    Usuarios
+    usuarios
     {
       ...UserObject
     }
@@ -35,7 +40,7 @@ query meData ($include: Boolean!)
   {
     status
     message
-    Usuario
+    usuario
     {
       ...UserObject
     }

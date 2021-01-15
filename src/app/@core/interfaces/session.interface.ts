@@ -8,6 +8,6 @@ export interface ISession{
 export interface IMeData
 {
     status: boolean;
-    message: string;
-    Usuario?: IUsuario;
+    message?: string;
+    usuario?: IUsuario;
 }

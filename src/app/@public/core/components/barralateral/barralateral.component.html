@@ -28,18 +28,21 @@
       class="nav-link"
       [routerLink]="['/admin']"
       routerLinkActive="router-link-active"
+      *ngIf="tengoAcceso && perfil=='ADMIN'"
       >Administración</a
     >
     <a
       class="nav-link"
       [routerLink]="['/login']"
       routerLinkActive="router-link-active"
+      *ngIf="!tengoAcceso"
       >login</a
     >
     <a
       class="nav-link"
       [routerLink]="['/registro']"
       routerLinkActive="router-link-active"
+      *ngIf="!tengoAcceso"
       >registro</a
     >
     <a

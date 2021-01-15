@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { IMeData } from '@core/interfaces/session.interface';
+import { AuthService } from '@core/services/auth.service';
 
 @Component({
   selector: 'app-barralateral',
@@ -7,7 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BarralateralComponent implements OnInit {
 
-  constructor() { }
+  session: IMeData = {
+    status: false,
+  };
+
+  tengoAcceso = false;
+  perfil: string;
+
+  constructor(private authService: AuthService) {
+    this.authService.accessVar$.subscribe((result: IMeData) => {
+      this.session = result;
+      this.tengoAcceso = this.session.status;
+      this.perfil = this.session.usuario.perfil;
+    });
+  }
 
   ngOnInit(): void {
   }
