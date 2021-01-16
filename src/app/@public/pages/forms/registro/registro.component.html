@@ -1,1 +1,51 @@
-<p>registro works!</p>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg"></div>
+      <div class="col-lg-6">
+        <form>
+          <h1>Registro de usuario</h1>
+          <hr />
+          <label for="name"><b>Nombre</b></label>
+          <input type="text" placeholder="Nombre" name="name" title="Solo se mostrará en caso de que decidas firmar tus recetas con tu nombre en lugar del con el usuario"/>
+          
+          <label for="lastname"><b>Apellidos</b></label>
+          <input type="text" placeholder="Apellido" name="lastname" title="Si tenemos tu apellido y firmas con el nombre, este se añadirá"/>
+
+          <label for="Correo electrónico"><b>Email</b></label>
+          <input type="text" placeholder="Correo electrónico" name="email" required title="Sólo lo usaremos para notificarte lo que nos pidas, y para hacer login"/>
+
+          <label for="userName"><b>Nombre de usuario</b></label>
+          <input type="text" placeholder="Nombre de usuario" name="userName" required title="Servirá para hacer login, y para poder identificar tus recetas"/>
+
+          <label for="pass"><b>Contraseña</b></label>
+          <input
+            type="password"
+            placeholder="Contraseña"
+            name="pass"
+            required
+          />
+           <label for="birthDate"><b>Fecha de nacimiento</b></label>
+           <app-date-picker (newDate)="dataAsign($event)" title="Usamos tu cumpleaños para poder felicitarte y conocer la edad de nuestros cocineros y comensales"></app-date-picker>
+
+          <p>
+            Registrándose indica que está de acuertdo con 
+            <a href="#" style="color: dodgerblue;">los terminos y condiciones</a> de la web.
+          </p>
+          <p>
+            ¿Ya tiene una cuenta? Entonces mejor vaya a la pagina de 
+            <a [routerLink]="['/login']" style="color: dodgerblue;"
+              >Inicio de sesión</a
+            >.
+          </p>
+          <div class="row">
+            <div class="col-lg">
+              <button type="submit" class="signup-btn">Realizar el registro</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="col-lg"></div>
+    </div>
+  </div>

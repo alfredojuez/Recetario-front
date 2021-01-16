@@ -9,16 +9,26 @@ hr {
   margin-bottom: 25px;
 }
 
+label{
+  width: 40%;
+  padding: 6px 6px;
+  margin: 2px 0;
+  display: inline-block;
+  border: 0px solid #ccc;
+  box-sizing: border-box;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="password"],
 textarea {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
+  width: 60%;
+  padding: 6px 6px;
+  margin: 2px 0;
   display: inline-block;
   border: 1px solid #ccc;
-  box-sizing: border-box;
+  border-radius: 5px;
+  //box-sizing: border-box;
 }
 
 /* Set a style for all buttons */
