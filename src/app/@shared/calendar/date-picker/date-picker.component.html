@@ -11,6 +11,7 @@
         [minDate]="minDate"
         [maxDate]="maxDate"
         #d="ngbDatepicker"
+        readonly
       />
       <div class="input-group-append">
         <button
@@ -21,8 +22,7 @@
           <i class="far fa-calendar-alt"></i>
         </button>
       </div>
+      
     </div>
-  </div>
+  </div>  
 </form>
-
-{{ model | json }}

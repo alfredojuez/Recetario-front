@@ -7,12 +7,12 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./date-picker.component.scss']
 })
 export class DatePickerComponent implements OnInit {
-  model: NgbDateStruct;
-  // CURRENTDAY = {
-  //   year: new Date().getFullYear(),
-  //   month: new Date().getMonth() + 1,
-  //   day:  new Date().getDate()
-  // };
+
+  HOY = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
+    day:  new Date().getDate()
+  };
 
   // así limitamos las fechas entre hace 120 años y hoy
   minDate: NgbDateStruct = {
@@ -26,6 +26,8 @@ export class DatePickerComponent implements OnInit {
     day:  new Date().getDate()
   };
 
+  // seleccionamos como fecha de nacimiento los 18 años
+  model: NgbDateStruct = this.HOY;
   @Output() newDate = new EventEmitter<NgbDateStruct>();
 
   constructor() { }

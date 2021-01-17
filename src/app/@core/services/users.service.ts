@@ -1,24 +1,26 @@
+import { variable } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
+import { IRegisterForm } from '@core/interfaces/register.interface';
+import { REGISTER_USER } from '@graphql/operations/mutation/usuario';
 import { LISTA_USUARIOS_QUERY } from '@graphql/operations/query/usuario';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/internal/operators/map';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class UsersService extends ApiService{
-
+export class UsersService extends ApiService {
   constructor(apollo: Apollo) {
     super(apollo);
   }
 
   getUsuarios() {
-    return this.get(LISTA_USUARIOS_QUERY,
-                    { include: true }
-    ).pipe(map((result: any) => {
-      return result.ListadoUsuarios;
-    }));
+    return this.get(LISTA_USUARIOS_QUERY, { include: true }).pipe(
+      map((result: any) => {
+        return result.ListadoUsuarios;
+      })
+    );
     /*
     Devolvemos result.ListadoUsuarios, porque el graphQL devuelve esta respuesta:
     {
@@ -32,6 +34,18 @@ export class UsersService extends ApiService{
               ....
       Y queremos obtener el resultado data.ListadoUsuarios directamente.
     */
-}
+  }
 
+  register(DatosUsuario: IRegisterForm) {
+    return this.set(REGISTER_USER,
+      {
+          DatosUsuario,
+          include: false,
+      })
+      .pipe(
+        map((result: any) => {
+          return result.register;
+        })
+      );
+  }
 }

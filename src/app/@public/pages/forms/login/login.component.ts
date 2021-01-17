@@ -21,6 +21,8 @@ export class LoginComponent {
   constructor(private auth: AuthService,  private router: Router) { }
 
   init(){
+    console.log('NO PARECE QUE ESTE HACIENDO EL INIT.....');
+    console.log(this.login);
     this.auth.login(this.login.email, this.login.pass).subscribe(
       (result: IResultLogin) => {
       if (result.status && result.token)
@@ -38,5 +40,4 @@ export class LoginComponent {
       }
     });
   }
-
 }

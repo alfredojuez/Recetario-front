@@ -11,11 +11,12 @@ export const USUARIO_FRAGMENT = gql`
     apellidos
     usuario
     pass @include(if: $include)
+    fecha_nacimiento
     foto
     nacionalidad
     perfil
-    fechaAlta @include(if: $include)
-    ultimoLogin @include(if: $include)
+    fecha_alta @include(if: $include)
+    ultimo_login @include(if: $include)
     activo
   }
 `;
