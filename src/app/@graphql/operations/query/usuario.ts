@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { USUARIO_FRAGMENT } from '@graphql/operations/fragment/Usuario';
+import { RESULT_INFO_FRAGMENT } from '@graphql/operations/fragment/Result-info';
 
 export const LOGIN_QUERY = gql`
     query getLogin($user:String!, $pass: String!, $include: Boolean!)
@@ -19,18 +20,25 @@ export const LOGIN_QUERY = gql`
 `;
 
 export const LISTA_USUARIOS_QUERY = gql`
-query ListaUsuarios ($include: Boolean!)
-{
-   ListadoUsuarios{
-    status
-    message
-    usuarios
+    query ListaUsuarios ($include: Boolean!, $page: Int, $itemsPage: Int)
     {
-      ...UserObject
+      ListadoUsuarios(page: $page, itemsPage: $itemsPage)
+      {
+        info
+        {
+          ...ResultInfoObject
+        }
+
+        status
+        message
+        usuarios
+        {
+          ...UserObject
+        }
+      }
     }
-  }
-}
-${ USUARIO_FRAGMENT}
+    ${ USUARIO_FRAGMENT}
+    ${ RESULT_INFO_FRAGMENT}
 `;
 
 export const ME_DATA_QUERY = gql`
