@@ -16,6 +16,7 @@ export class IngredientesComponent implements OnInit {
   resultData: IResultData;
   // include: boolean;
   columns: Array<ITableColumns>;
+  bloqueable: boolean;
 
   constructor() { }
 
@@ -26,14 +27,15 @@ export class IngredientesComponent implements OnInit {
        definitionKey: 'ListadoIngredientes',
        listKey: 'ingredientes',
     };
+    this.bloqueable = false;
     // this.include = false;
     this.columns = [
-      { property: 'idIngrediente', label: '#', typeElement: ''},
-      { property: 'nombre', label: 'Nombre', typeElement: ''},
-      { property: 'descripcion', label: 'Descripción', typeElement: ''},
+      // { property: 'idIngrediente', label: '#', typeElement: 'TEXT'},
+      { property: 'nombre', label: 'Nombre', typeElement: 'TEXT'},
+      // { property: 'descripcion', label: 'Descripción', typeElement: 'TEXT'},
       { property: 'familia', label: 'Familia', typeElement: ''},
-      { property: 'foto', label: 'Foto', typeElement: ''},
-      { property: 'calorias', label: 'Calorias', typeElement: ''},
+      // { property: 'foto', label: 'Foto', typeElement: 'IMG'},
+      // { property: 'calorias', label: 'Calorias', typeElement: 'TEXT'},
     ];
   }
 }

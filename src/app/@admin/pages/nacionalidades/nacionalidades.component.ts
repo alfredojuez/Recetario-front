@@ -16,6 +16,7 @@ export class NacionalidadesComponent implements OnInit {
   resultData: IResultData;
   // include: boolean;
   columns: Array<ITableColumns>;
+  bloqueable: boolean;
 
   constructor() { }
 
@@ -26,11 +27,13 @@ export class NacionalidadesComponent implements OnInit {
        definitionKey: 'ListadoNacionalidades',
        listKey: 'nacionalidades',
     };
+    this.bloqueable = false;
+
     // this.include = false;
     this.columns = [
       { property: 'icono', label: 'Icono', typeElement: 'IMG'},
-      { property: 'idNacionalidad', label: 'Código', typeElement: ''},
-      { property: 'nombre', label: 'Nombre', typeElement: ''},
+      { property: 'idNacionalidad', label: 'Código', typeElement: 'TEXT'},
+      { property: 'nombre', label: 'Nombre', typeElement: 'TEXT'},
     ];
   }
 }

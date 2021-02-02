@@ -17,27 +17,35 @@ export class UsuariosComponent implements OnInit {
   resultData: IResultData;
   include: boolean;
   columns: Array<ITableColumns>;
+  bloqueable: boolean;
 
-  ngOnInit(): void {
+  ngOnInit(): void
+  {
     this.context = {};
     this.itemsPage = 15;
     this.resultData = {
        definitionKey: 'ListadoUsuariosCompleto',
        listKey: 'usuarios',
     };
+
+    console.log(this.bloqueable);
+
+    this.bloqueable = true;
+
     this.include = true;
     this.columns = [
-      { property: 'id', label: '#', typeElement: ''},
-      { property: 'nombre', label: 'Nombre', typeElement: ''},
-      { property: 'apellidos', label: 'Apellidos', typeElement: ''},
-      { property: 'usuario', label: 'Usuario', typeElement: ''},
-      { property: 'email', label: 'E-mail', typeElement: ''},
-      { property: 'fecha_nacimiento', label: 'Cumpleaños', typeElement: ''},
-      { property: 'nacionalidad', label: 'Nacionalidad', typeElement: ''},
-      { property: 'ultimo_login', label: 'Última visita', typeElement: ''},
-      { property: 'fecha_alta', label: 'Fecha de registro', typeElement: ''},
-      { property: 'activo', label: 'Estado', typeElement: ''},
-      { property: 'perfil', label: 'Perfil', typeElement: ''},
+      { property: 'activo', label: 'Estado', typeElement: 'ACTIVE'},
+      // { property: 'id', label: '#', typeElement: 'TEXT'},
+      // { property: 'nombre', label: 'Nombre', typeElement: 'TEXT'},
+      // { property: 'apellidos', label: 'Apellidos', typeElement: 'TEXT'},
+      { property: 'usuario', label: 'Usuario', typeElement: 'TEXT'},
+      { property: 'email', label: 'E-mail', typeElement: 'TEXT'},
+      // { property: 'foto', label: 'Avatar', typeElement: 'IMG'},
+      // { property: 'fecha_nacimiento', label: 'Cumpleaños', typeElement: 'TEXT'},
+      // { property: 'nacionalidad', label: 'Nacionalidad', typeElement: 'TEXT'},
+      // { property: 'ultimo_login', label: 'Última visita', typeElement: 'TEXT'},
+      // { property: 'fecha_alta', label: 'Fecha de registro', typeElement: 'TEXT'},
+      { property: 'perfil', label: 'Perfil', typeElement: 'ICON'},
     ];
   }
 

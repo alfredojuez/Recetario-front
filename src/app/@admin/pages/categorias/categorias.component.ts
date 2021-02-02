@@ -16,6 +16,7 @@ export class CategoriasComponent implements OnInit {
   resultData: IResultData;
   // include: boolean;
   columns: Array<ITableColumns>;
+  bloqueable: boolean;
 
   constructor() { }
 
@@ -26,12 +27,14 @@ export class CategoriasComponent implements OnInit {
        definitionKey: 'ListadoCategorias',
        listKey: 'categorias',
     };
+    this.bloqueable = false;
+
     // this.include = false;
     this.columns = [
-      { property: 'idCategoria', label: '#', typeElement: ''},
-      { property: 'nombre', label: 'Nombre de la categoría', typeElement: ''},
-      { property: 'descripcion', label: 'descripcion', typeElement: ''},
-      { property: 'foto', label: 'foto', typeElement: ''},
+      // { property: 'idCategoria', label: '#', typeElement: 'TEXT'},
+      { property: 'nombre', label: 'Nombre de la categoría', typeElement: 'TEXT'},
+      // { property: 'descripcion', label: 'descripcion', typeElement: 'TEXT'},
+      // { property: 'foto', label: 'foto', typeElement: 'IMG'},
     ];
   }
 

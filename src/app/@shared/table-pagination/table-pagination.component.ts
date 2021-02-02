@@ -20,6 +20,7 @@ export class TablePaginationComponent implements OnInit {
   @Input() resultData: IResultData;
   @Input() include = true;
   @Input() tableColumns: Array<ITableColumns> = undefined;
+  @Input() bloqueable = false;
 
   infoPage: IInfoPage;
 
@@ -68,6 +69,16 @@ export class TablePaginationComponent implements OnInit {
   {
     console.log(this.infoPage.page);
     this.loadData();
+  }
+
+  /**
+   * Funcion que ejecuta las distintas acciones que tengamos definidas en la tabla
+   * @param action  las acciones definidas son: add, info, edit, block y del
+   * @param data    conjunto de datos sobre los que interactuar.
+   */
+  manageAction(action: string, data: any)
+  {
+    console.log(action, data);
   }
 
 }
