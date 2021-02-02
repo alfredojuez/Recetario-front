@@ -19,6 +19,21 @@ const routes: Routes = [
         loadChildren: () =>
           import('./usuarios/usuarios.module').then((m) => m.UsuariosModule),
       },
+      {
+        path: 'categorias',
+        loadChildren: () =>
+          import('./categorias/categorias.module').then((m) => m.CategoriasModule),
+      },
+      {
+        path: 'ingredientes',
+        loadChildren: () =>
+          import('./ingredientes/ingredientes.module').then((m) => m.IngredientesModule),
+      },
+      {
+        path: 'nacionalidades',
+        loadChildren: () =>
+          import('./nacionalidades/nacionalidades.module').then((m) => m.NacionalidadesModule),
+      },
     ],
   },
 ];
