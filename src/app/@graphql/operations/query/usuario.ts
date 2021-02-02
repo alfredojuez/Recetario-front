@@ -12,7 +12,7 @@ export const LOGIN_QUERY = gql`
         token
         usuario
         {
-          ...UserObject
+          ...userObject
         }
       }
     }
@@ -33,7 +33,7 @@ export const LISTA_USUARIOS_QUERY = gql`
         message
         usuarios
         {
-          ...UserObject
+          ...userObject
         }
       }
     }
@@ -50,7 +50,7 @@ query meData ($include: Boolean!)
     message
     usuario
     {
-      ...UserObject
+      ...userObject
     }
   }
 }

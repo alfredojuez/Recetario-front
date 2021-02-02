@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 // con @include(if: $include) indicamos los campos que no queremos
 // que sean visibles si include = false
 export const USUARIO_FRAGMENT = gql`
-  fragment UserObject on Usuario {
+  fragment userObject on Usuario {
     id
     email
     nombre

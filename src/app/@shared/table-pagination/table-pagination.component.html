@@ -20,18 +20,13 @@
 </div>
 
 <!-- Si solo hay una página que mostrar, no habilitamos los botones de navegacion -->
+<!-- El calculo de los botones se realiza entre collectionSize/pageSize -->
 <div class="d-flex justify-content-between p-2" *ngIf="infoPage.totalPages > 1">
   <ngb-pagination
-    [collectionSize]="infoPage.totalPages"
+    [collectionSize]="infoPage.totalItems"
     [(page)]="infoPage.page"
-    [pageSize]="itemsPage"
+    [pageSize]="infoPage.itemsPage"
     (pageChange) ="pageChange()"
   >
   </ngb-pagination>
-
-  <!-- <select class="custom-select" style="width: auto" [(ngModel)]="pageSize" (ngModelChange)="refreshCountries()">
-      <option [ngValue]="2">2 items per page</option>
-      <option [ngValue]="4">4 items per page</option>
-      <option [ngValue]="6">6 items per page</option>
-    </select> -->
 </div>

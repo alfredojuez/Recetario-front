@@ -52,7 +52,9 @@ export class TablePaginationComponent implements OnInit {
   loadData()
   {
     const variables = {
+      // página en la que estamos
       page: this.infoPage.page,
+      // numero de items por página
       itemsPage: this.itemsPage,
       include: this.include,
     };
@@ -61,7 +63,6 @@ export class TablePaginationComponent implements OnInit {
       map((result: any) => {
         const data = result[this.resultData.definitionKey];
         this.infoPage = data.info;
-        console.log(data);
         return data[this.resultData.listKey];
       }
     ));
