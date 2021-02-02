@@ -38,4 +38,10 @@ export class IngredientesComponent implements OnInit {
       // { property: 'calorias', label: 'Calorias', typeElement: 'TEXT'},
     ];
   }
+
+  takeAction($event){
+    console.log('EN EL PADRE');
+    console.log($event);
+  }
+
 }

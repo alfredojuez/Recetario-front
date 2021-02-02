@@ -36,4 +36,10 @@ export class NacionalidadesComponent implements OnInit {
       { property: 'nombre', label: 'Nombre', typeElement: 'TEXT'},
     ];
   }
+
+  takeAction($event){
+    console.log('EN EL PADRE');
+    console.log($event);
+  }
+
 }

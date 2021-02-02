@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IInfoPage, IResultData } from '@core/interfaces/result-data.interface';
 import { LISTA_USUARIOS_QUERY } from '@graphql/operations/query/usuario';
 import { Observable } from 'rxjs/internal/Observable';
@@ -22,8 +22,9 @@ export class TablePaginationComponent implements OnInit {
   @Input() tableColumns: Array<ITableColumns> = undefined;
   @Input() bloqueable = false;
 
-  infoPage: IInfoPage;
+  @Output() manageItem = new EventEmitter<Array<any>>();
 
+  infoPage: IInfoPage;
   // El símbolo del $ indica que es un observable
   data$: Observable<any>;
   // Any => asi vale para categorias, ingredientes...
@@ -78,7 +79,11 @@ export class TablePaginationComponent implements OnInit {
    */
   manageAction(action: string, data: any)
   {
+    console.log('====================================================')
+    console.log('EN EL HIJO')
     console.log(action, data);
+    
+    this.manageItem.emit([action, data]);   // para enviar el dato al padre
   }
 
 }

@@ -38,4 +38,9 @@ export class CategoriasComponent implements OnInit {
     ];
   }
 
+  takeAction($event){
+    console.log('EN EL PADRE');
+    console.log($event);
+  }
+
 }

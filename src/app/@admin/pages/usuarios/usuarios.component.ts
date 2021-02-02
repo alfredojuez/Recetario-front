@@ -49,4 +49,9 @@ export class UsuariosComponent implements OnInit {
     ];
   }
 
+  takeAction($event){
+    console.log('EN EL PADRE');
+    console.log($event);
+  }
+
 }
