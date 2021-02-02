@@ -19,12 +19,14 @@ export class GraphqlModule {
       const errorLink = onError(({graphQLErrors, networkError}) =>{
         if(graphQLErrors)
         {
-          console.log(`Errores de GraphQL: ${graphQLErrors}`);
+          console.log(`Errores de GraphQL:`);
+          console.log(graphQLErrors);
         }
 
         if(networkError)
         {
-          console.log(`Errores de RED: ${networkError}`)
+          console.log(`Errores de RED: `);
+          console.log(networkError);
         }
       });
 

@@ -13,7 +13,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./pagina404/pagina404.module').then(
             (m) => m.Pagina404Module
-          ),  
+          ),
       },
       {
         path: 'contacto',
@@ -24,12 +24,26 @@ const routes: Routes = [
       },
       {
         path: '',
-        
         loadChildren: () =>
           import('./inicio/inicio.module').then(
             (m) => m.InicioModule
           ),
-      }
+      },
+
+      {
+        path: 'login',
+        loadChildren: () =>
+          import('./forms/login/login.module').then(
+            (m) => m.LoginModule
+          ),
+      },
+      {
+        path: 'registro',
+        loadChildren: () =>
+          import('./forms/registro/registro.module').then(
+            (m) => m.RegistroModule
+          ),
+      },
     ]
   }
 ];
