@@ -22,7 +22,7 @@ export const LOGIN_QUERY = gql`
 export const LISTA_USUARIOS_QUERY = gql`
     query ListaUsuarios ($include: Boolean!, $page: Int, $itemsPage: Int)
     {
-      ListadoUsuarios(page: $page, itemsPage: $itemsPage)
+      ListadoUsuariosCompleto(page: $page, itemsPage: $itemsPage)
       {
         info
         {

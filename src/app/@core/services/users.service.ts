@@ -22,22 +22,9 @@ export class UsersService extends ApiService {
                     itemsPage
                   }).pipe(
       map((result: any) => {
-        return result.ListadoUsuarios;
+        return result.ListadoUsuariosCompleto;
       })
     );
-    /*
-    Devolvemos result.ListadoUsuarios, porque el graphQL devuelve esta respuesta:
-    {
-      "data": {
-        "ListadoUsuarios": {
-          "status": true,
-          "message": "Lista de usuarios leida correctamente, total de registros: 3",
-          "Usuarios": [
-            {
-              "id": "1",
-              ....
-      Y queremos obtener el resultado data.ListadoUsuarios directamente.
-    */
   }
 
   register(DatosUsuario: IRegisterForm) {
