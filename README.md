@@ -1,27 +1,65 @@
 # Recetario versión 0.1 beta
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.13.
+Este proyecto se generó con [Angular CLI](https://github.com/angular/angular-cli) version 9.1.13.
 
-## Development server
+# Servidor de desarrollo
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Hay que ejecutar 
+```
+#> ng serve
+``` 
+para levantar el servidor de desarrollo, aunque tambien tenemos asociado un alias con el comando:
+```
+#> npm start
+``` 
+que ejecuta 'ng serve' igualmente.
 
-## Code scaffolding
+En cualquier caso, para probar el frontend hay que ir a la URL [http://localhost:4200/](http://localhost:4200/).
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Cualquier cambio en el codigo fuente se recargará automáticamente en el navegador.
 
-## Build
+# Ayuda para la codificación
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+Podemos crear de manera sencilla componentes con la siguiente instrucción:
+```
+#> ng generate component component-name
+``` 
+para crear un nuevo componente. Tambien podremos usar:
+```
+#> ng generate directive|pipe|service|class|guard|interface|enum|module
+```
 
-## Running unit tests
+# Construir el proyecto
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Para construir el proyecto, tenemos que ejecutar 
+```
+#> ng build
+```
+Esto generará los artefactos que se almacenarán en la carpeta **/dist**. 
 
-## Running end-to-end tests
+Si queremos generar la versión para producción, minimizada hay que usar el parametro  **--prod**.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+# Ejecutar test unitarios
 
-## Further help
+Con el parametro  
+```
+#> ng test
+```
+Para los tests unitarios hemos usado [Karma](https://karma-runner.github.io).
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+# Ejecutar tests end-to-end 
+
+Los tests end to end se ejecutarán con el comando:
+```
+#> ng e2e
+```
+En este caso usamos [Protractor](http://www.protractortest.org/).
+
+# Más ayudas
+
+Para obtener más ayudas acerca de Angular CLI use:
+
+```
+#> ng help
+``` 
+o vaya al README de [Angular CLI](https://github.com/angular/angular-cli/blob/master/README.md).

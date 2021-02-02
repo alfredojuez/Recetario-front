@@ -23,7 +23,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'inicio',
+        path: '',
         
         loadChildren: () =>
           import('./inicio/inicio.module').then(
