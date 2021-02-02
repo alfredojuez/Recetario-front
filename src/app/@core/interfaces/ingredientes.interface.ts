@@ -1,5 +1,5 @@
 export interface IIngrediente{
-    id: string
+    idIngredienet: string;
     nombre: string;
     descripcion: string;
     familia: string;

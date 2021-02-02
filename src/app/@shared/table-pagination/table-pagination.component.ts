@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { DocumentNode } from 'graphql';
 import { map } from 'rxjs/internal/operators/map';
 import { TablePaginationService } from './table-pagination.service';
+import { ITableColumns } from '@core/interfaces/table-columns.interface';
 
 @Component({
   selector: 'app-table-pagination',
@@ -18,6 +19,7 @@ export class TablePaginationComponent implements OnInit {
   @Input() itemsPage = 15;
   @Input() resultData: IResultData;
   @Input() include = true;
+  @Input() tableColumns: Array<ITableColumns> = undefined;
 
   infoPage: IInfoPage;
 
@@ -29,15 +31,9 @@ export class TablePaginationComponent implements OnInit {
 
   ngOnInit(): void
   {
-    if ((this.query === undefined))
-    {
-      throw new Error('Query is undefined');
-    }
-
-    if ((this.resultData === undefined))
-    {
-      throw new Error('ResultData is undefined');
-    }
+    if ((this.query === undefined))          {      throw new Error('Query is undefined');        }
+    if ((this.resultData === undefined))     {      throw new Error('ResultData is undefined');   }
+    if ((this.tableColumns === undefined))   {      throw new Error('tableColumns is undefined');   }
 
     this.infoPage =
     {
@@ -51,12 +47,12 @@ export class TablePaginationComponent implements OnInit {
 
   loadData()
   {
+    console.log('Llamada a loadData - Recargamos los datos...');
+    console.log(this.infoPage.itemsPage);
     const variables = {
-      // página en la que estamos
-      page: this.infoPage.page,
-      // numero de items por página
-      itemsPage: this.itemsPage,
-      include: this.include,
+      page:       this.infoPage.page,
+      itemsPage:  this.infoPage.itemsPage,
+      include:    this.include,
     };
 
     this.data$ = this.service.getCollectionData(this.query,  variables, {}, ).pipe(

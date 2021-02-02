@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentNode } from 'graphql';
 import { IResultData } from '@core/interfaces/result-data.interface';
 import { LISTA_NACIONALIDADES_QUERY } from '@graphql/operations/query/nacionalidad';
+import { ITableColumns } from '@core/interfaces/table-columns.interface';
 
 @Component({
   selector: 'app-nacionalidades',
@@ -14,6 +15,7 @@ export class NacionalidadesComponent implements OnInit {
   itemsPage: number;
   resultData: IResultData;
   // include: boolean;
+  columns: Array<ITableColumns>;
 
   constructor() { }
 
@@ -25,6 +27,10 @@ export class NacionalidadesComponent implements OnInit {
        listKey: 'nacionalidades',
     };
     // this.include = false;
+    this.columns = [
+      { property: 'icono', label: 'Icono', typeElement: 'IMG'},
+      { property: 'idNacionalidad', label: 'Código', typeElement: ''},
+      { property: 'nombre', label: 'Nombre', typeElement: ''},
+    ];
   }
-
 }

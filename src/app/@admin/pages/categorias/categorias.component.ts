@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DocumentNode } from 'graphql';
 import { IResultData } from '@core/interfaces/result-data.interface';
 import { LISTA_CATEGORIAS_QUERY } from '@graphql/operations/query/categoria';
+import { ITableColumns } from '@core/interfaces/table-columns.interface';
 
 @Component({
   selector: 'app-categorias',
@@ -14,6 +15,7 @@ export class CategoriasComponent implements OnInit {
   itemsPage: number;
   resultData: IResultData;
   // include: boolean;
+  columns: Array<ITableColumns>;
 
   constructor() { }
 
@@ -25,6 +27,12 @@ export class CategoriasComponent implements OnInit {
        listKey: 'categorias',
     };
     // this.include = false;
+    this.columns = [
+      { property: 'idCategoria', label: '#', typeElement: ''},
+      { property: 'nombre', label: 'Nombre de la categoría', typeElement: ''},
+      { property: 'descripcion', label: 'descripcion', typeElement: ''},
+      { property: 'foto', label: 'foto', typeElement: ''},
+    ];
   }
 
 }

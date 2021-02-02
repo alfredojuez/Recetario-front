@@ -16,6 +16,8 @@ export class TablePaginationService extends ApiService
 
   getCollectionData(query: DocumentNode, variables: object = {}, context: object = {})
   {
+    console.log('getCollectionData  getCollectionData  getCollectionData')
+    console.log(variables)
     return this.get(query, variables, context);
   }
 }
