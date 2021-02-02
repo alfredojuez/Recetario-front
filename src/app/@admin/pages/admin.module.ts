@@ -10,7 +10,7 @@ import { CategoriasComponent } from './categorias/categorias.component';
 
 
 @NgModule({
-  declarations: [AdminComponent, CabeceraComponent, TituloComponent, BarralateralComponent, CategoriasComponent],
+  declarations: [AdminComponent, CabeceraComponent, TituloComponent, BarralateralComponent],
   imports: [
     CommonModule,
     AdminRoutingModule

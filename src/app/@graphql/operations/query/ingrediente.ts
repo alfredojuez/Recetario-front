@@ -3,9 +3,9 @@ import { RESULT_INFO_FRAGMENT } from '@graphql/operations/fragment/Result-info';
 import { INGREDIENTE_FRAGMENT } from '../fragment/Ingrediente';
 
 export const LISTA_INGREDIENTES_QUERY = gql`
-    query ListaIngredientes ($include: Boolean!, $page: Int, $itemsPage: Int)
+    query ListaIngredientes ($page: Int, $itemsPage: Int)
     {
-      ListaIngredientes(page: $page, itemsPage: $itemsPage)
+      ListadoIngredientes(page: $page, itemsPage: $itemsPage)
       {
         info
         {

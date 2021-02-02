@@ -15,7 +15,7 @@ export class TablePaginationComponent implements OnInit {
 
   @Input() query: DocumentNode; // = LISTA_USUARIOS_QUERY;
   @Input() context: object;
-  @Input() itemsPage = 50;
+  @Input() itemsPage = 15;
   @Input() resultData: IResultData;
   @Input() include = true;
 

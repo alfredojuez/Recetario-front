@@ -18,7 +18,7 @@ export class UsuariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.context = {};
-    this.itemsPage = 3;
+    this.itemsPage = 15;
     this.resultData = {
        definitionKey: 'ListadoUsuariosCompleto',
        listKey: 'usuarios',

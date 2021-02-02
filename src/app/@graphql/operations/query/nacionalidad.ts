@@ -1,11 +1,11 @@
 import gql from 'graphql-tag';
 import { RESULT_INFO_FRAGMENT } from '@graphql/operations/fragment/Result-info';
-import { CATEGORIA_FRAGMENT } from '@graphql/operations/fragment/Categoria';
+import { NACIONALIDAD_FRAGMENT } from '../fragment/Nacionalidad';
 
 export const LISTA_NACIONALIDADES_QUERY = gql`
-    query ListaNacionalidades ($include: Boolean!, $page: Int, $itemsPage: Int)
+    query ListaNacionalidades ($page: Int, $itemsPage: Int)
     {
-      ListaNacionalidades(page: $page, itemsPage: $itemsPage)
+      ListadoNacionalidades(page: $page, itemsPage: $itemsPage)
       {
         info
         {
@@ -20,7 +20,7 @@ export const LISTA_NACIONALIDADES_QUERY = gql`
         }
       }
     }
-    ${ CATEGORIA_FRAGMENT}
+    ${ NACIONALIDAD_FRAGMENT}
     ${ RESULT_INFO_FRAGMENT}
 `;
 
