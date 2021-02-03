@@ -22,7 +22,7 @@ export class TablePaginationComponent implements OnInit {
   @Input() tableColumns: Array<ITableColumns> = undefined;
   @Input() bloqueable = false;
 
-  @Output() manageItem = new EventEmitter<Array<any>>();
+  @Output() manageItem = new EventEmitter<any>();
 
   infoPage: IInfoPage;
   // El símbolo del $ indica que es un observable
@@ -79,11 +79,11 @@ export class TablePaginationComponent implements OnInit {
    */
   manageAction(action: string, data: any)
   {
-    console.log('====================================================')
-    console.log('EN EL HIJO')
+    console.log('====================================================');
+    console.log('EN EL HIJO');
     console.log(action, data);
-    
-    this.manageItem.emit([action, data]);   // para enviar el dato al padre
+
+    this.manageItem.emit({accion: action, datos: data});   // para enviar el dato al padre
   }
 
 }

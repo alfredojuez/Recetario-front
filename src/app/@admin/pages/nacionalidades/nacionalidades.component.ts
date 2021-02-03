@@ -3,6 +3,8 @@ import { DocumentNode } from 'graphql';
 import { IResultData } from '@core/interfaces/result-data.interface';
 import { LISTA_NACIONALIDADES_QUERY } from '@graphql/operations/query/nacionalidad';
 import { ITableColumns } from '@core/interfaces/table-columns.interface';
+import { formBasicDialog } from '@shared/alerts/alerts';
+import { NacionalidadesService } from './nacionalidades.service';
 
 @Component({
   selector: 'app-nacionalidades',
@@ -18,7 +20,7 @@ export class NacionalidadesComponent implements OnInit {
   columns: Array<ITableColumns>;
   bloqueable: boolean;
 
-  constructor() { }
+  constructor(private service: NacionalidadesService) { }
 
   ngOnInit(): void {
     this.context = {};
@@ -37,9 +39,26 @@ export class NacionalidadesComponent implements OnInit {
     ];
   }
 
-  takeAction($event){
+  async takeAction($event){
+    const accion = $event.accion;
+    const datos = $event.datos;
+    console.log('====================================================');
     console.log('EN EL PADRE');
-    console.log($event);
+    console.log(accion);
+    console.log(datos);
+
+    const html = '<input id="nombre" class="swal2-input">';
+
+    if (accion === 'add')
+    {
+      const result = formBasicDialog('Añadir usuario', html, 'nombre');
+      console.log(result);
+      this.service.addNacionalidad((await result).value).subscribe(
+        (res: any) => {
+          console.log(res);
+        }
+      );
+    }
   }
 
 }

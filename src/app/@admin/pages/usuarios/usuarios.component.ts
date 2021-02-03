@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { IResultData } from '@core/interfaces/result-data.interface';
 import { ITableColumns } from '@core/interfaces/table-columns.interface';
 import { LISTA_USUARIOS_QUERY } from '@graphql/operations/query/usuario';
+import { formBasicDialog } from '@shared/alerts/alerts';
 import { DocumentNode } from 'graphql';
+import { UsuariosService } from './usuarios.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -10,7 +12,6 @@ import { DocumentNode } from 'graphql';
   styleUrls: ['./usuarios.component.scss']
 })
 export class UsuariosComponent implements OnInit {
-
   query: DocumentNode = LISTA_USUARIOS_QUERY;
   context: object;
   itemsPage: number;
@@ -18,6 +19,8 @@ export class UsuariosComponent implements OnInit {
   include: boolean;
   columns: Array<ITableColumns>;
   bloqueable: boolean;
+
+  constructor(private service: UsuariosService) { }
 
   ngOnInit(): void
   {
@@ -49,9 +52,26 @@ export class UsuariosComponent implements OnInit {
     ];
   }
 
-  takeAction($event){
+  async takeAction($event){
+    const accion = $event.accion;
+    const datos = $event.datos;
+    console.log('====================================================');
     console.log('EN EL PADRE');
-    console.log($event);
+    console.log(accion);
+    console.log(datos);
+
+    const html = '<input id="nombre" class="swal2-input">';
+
+    if (accion === 'add')
+    {
+      const result = formBasicDialog('Añadir usuario', html, 'nombre');
+      console.log(result);
+      this.service.addUsuario((await result).value).subscribe(
+        (res: any) => {
+          console.log(res);
+        }
+      );
+    }
   }
 
 }
