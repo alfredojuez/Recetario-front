@@ -79,10 +79,6 @@ export class TablePaginationComponent implements OnInit {
    */
   manageAction(action: string, data: any)
   {
-    console.log('====================================================');
-    console.log('EN EL HIJO');
-    console.log(action, data);
-
     this.manageItem.emit({accion: action, datos: data});   // para enviar el dato al padre
   }
 

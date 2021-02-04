@@ -5,17 +5,28 @@ import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/internal/operators/map';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NacionalidadesService extends ApiService {
   constructor(apollo: Apollo) {
     super(apollo);
   }
 
-  addNacionalidad(nombre: string)
-  {
-    return this.set(ADD_NACIONALIDAD, {categoria: nombre}, {}).pipe(map((result: any) =>{
-      return result.addNacionalidad;
-    }));
+  addNacionalidad(ficha: any) {
+    return this.set(
+      ADD_NACIONALIDAD,
+      {
+        Datos: {
+          idNacionalidad: ficha.idNacionalidad,
+          nombre: ficha.nombre,
+          icono: ficha.icono,
+        },
+      },
+      {}
+    ).pipe(
+      map((result: any) => {
+        return result.addNacionalidad;
+      })
+    );
   }
 }

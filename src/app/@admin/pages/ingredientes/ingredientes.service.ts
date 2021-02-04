@@ -5,17 +5,30 @@ import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/internal/operators/map';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IngredientesService extends ApiService {
   constructor(apollo: Apollo) {
     super(apollo);
   }
 
-  addIngrediente(nombre: string)
-  {
-    return this.set(ADD_INGREDIENTE, {ingrediente: nombre}, {}).pipe(map((result: any) => {
-      return result.addIngrediente;
-    }));
+  addIngrediente(ficha: any) {
+    return this.set(
+      ADD_INGREDIENTE,
+      {
+        Datos: {
+          nombre: ficha.nombre,
+          descripcion: ficha.descripcion,
+          foto: ficha.foto,
+          familia: ficha.familia,
+          calorias: ficha.calorias
+        },
+      },
+      {}
+    ).pipe(
+      map((result: any) => {
+        return result.addIngrediente;
+      })
+    );
   }
 }

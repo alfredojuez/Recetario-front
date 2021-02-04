@@ -43,8 +43,8 @@
           <span *ngIf="val.typeElement == 'TEXT'">{{ data[val.property] }}</span>
         </td>
         <td class="fa-pull-right">
-            <button (click)="manageAction('info',  data)" type="button" style="width:40px" class="btn btn-success mr-1" title="Información"><i class="fas fa-info"></i></button>
-            <button (click)="manageAction('edit',  data)" type="button" style="width:40px" class="btn btn-primary mr-1" title="Editar"><i class="fas fa-edit"></i></button>
+            <button (click)="manageAction('info',  data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Información"><i class="fas fa-info"></i></button>
+            <button (click)="manageAction('edit',  data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Editar"><i class="fas fa-edit"></i></button>
             <button (click)="manageAction('block', data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Bloquear/desbloquear" *ngIf="bloqueable"><i class="fas fa-key"></i></button>
             <button (click)="manageAction('del',   data)" type="button" style="width:40px" class="btn btn-danger" title="Eliminar"><i class="far fa-trash-alt"></i></button>
         </td>
@@ -55,7 +55,7 @@
 
 <!-- Si solo hay una página que mostrar, no habilitamos los botones de navegacion -->
 <!-- El calculo de los botones se realiza entre collectionSize/pageSize -->
-<div class="d-flex justify-content-between p-2" *ngIf="infoPage.totalPages > 1">
+<div class="d-flex justify-content-between p-2">
   <ngb-pagination
     [collectionSize]="infoPage.totalItems"
     [(page)]="infoPage.page"
