@@ -12,7 +12,7 @@ export class NacionalidadesService extends ApiService {
     super(apollo);
   }
 
-  addNacionalidad(ficha: any) {
+  add(ficha: any) {
     return this.set(
       ADD_NACIONALIDAD,
       {

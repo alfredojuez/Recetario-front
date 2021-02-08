@@ -49,8 +49,6 @@ export class TablePaginationComponent implements OnInit {
 
   loadData()
   {
-    console.log('Llamada a loadData - Recargamos los datos...');
-    console.log(this.infoPage.itemsPage);
     const variables = {
       page:       this.infoPage.page,
       itemsPage:  this.infoPage.itemsPage,
@@ -59,6 +57,7 @@ export class TablePaginationComponent implements OnInit {
 
     this.data$ = this.service.getCollectionData(this.query,  variables, {}, ).pipe(
       map((result: any) => {
+
         const data = result[this.resultData.definitionKey];
         this.infoPage = data.info;
         return data[this.resultData.listKey];
@@ -68,7 +67,6 @@ export class TablePaginationComponent implements OnInit {
 
   pageChange()
   {
-    console.log(this.infoPage.page);
     this.loadData();
   }
 

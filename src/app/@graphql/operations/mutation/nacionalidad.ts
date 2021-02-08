@@ -16,3 +16,36 @@ mutation addRegistro($Datos: NacionalidadInput!)
 }
 ${NACIONALIDAD_FRAGMENT}
 `;
+
+export const MODIFY_NACIONALIDAD = gql`
+mutation actualizarNacionalidad($idSearch:Int!, $Datos:NacionalidadInput!)
+{
+  updateNacionalidad(idNacionalidad:$idSearch, nuevoRegistro: $Datos)
+  {
+    status
+    message
+		nacionalidad
+    {
+      ...nacionalidadObject
+    }
+  }
+}
+${NACIONALIDAD_FRAGMENT}
+`;
+
+
+export const DELETE_NACIONALIDAD = gql`
+mutation borrarNacionalidad($id: Int!)
+{
+  deleteNacionalidad(id: $id)
+  {
+    status
+    message
+		nacionalidad
+    {
+      ...nacionalidadObject
+    }
+  }
+}
+${NACIONALIDAD_FRAGMENT}
+`;

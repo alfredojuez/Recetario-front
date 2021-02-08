@@ -12,7 +12,7 @@ export class UsuariosService extends ApiService {
     super(apollo);
   }
 
-  addUsuario(ficha: any) {
+  add(ficha: any) {
     return this.set(
       ADD_USUARIO,
       {
@@ -21,6 +21,7 @@ export class UsuariosService extends ApiService {
           nombre: ficha.nombre,
           apellidos: ficha.apellidos,
           usuario: ficha.usuario,
+          pass: ficha.pass,
           fecha_nacimiento: ficha.fecha_nacimiento,
           foto: ficha.foto,
           nacionalidad: ficha.nacionalidad,

@@ -13,3 +13,36 @@ mutation addUsuario($DatosUsuario: UsuarioInput!, $include: Boolean!) {
   }
   ${ USUARIO_FRAGMENT}
 `;
+
+export const MODIFY_USUARIO = gql`
+mutation actualizarUsuario($idSearch:Int!, $Datos:UsuarioInput!)
+{
+  updateUsuario(id:$idSearch, nuevoRegistro: $Datos)
+  {
+    status
+    message
+		usuario
+    {
+      ...usuarioObject
+    }
+  }
+}
+${USUARIO_FRAGMENT}
+`;
+
+
+export const DELETE_USUARIO = gql`
+mutation borrarUsuario($id: Int!)
+{
+  deleteUsuario(id: $id)
+  {
+    status
+    message
+		usuario
+    {
+      ...usuarioObject
+    }
+  }
+}
+${USUARIO_FRAGMENT}
+`;

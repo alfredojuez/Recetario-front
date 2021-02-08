@@ -16,3 +16,36 @@ mutation addRegistro($Datos: IngredienteInput!)
 }
 ${INGREDIENTE_FRAGMENT}
 `;
+
+export const MODIFY_INGREDIENTE = gql`
+mutation actualizarIngrediente($idSearch:Int!, $Datos:IngredienteInput!)
+{
+  updateIngrediente(idIngrediente:$idSearch, nuevoRegistro: $Datos)
+  {
+    status
+    message
+		ingrediente
+    {
+      ...ingredienteObject
+    }
+  }
+}
+${INGREDIENTE_FRAGMENT}
+`;
+
+
+export const DELETE_INGREDIENTE = gql`
+mutation borrarIngrediente($id: Int!)
+{
+  deleteIngrediente(id: $id)
+  {
+    status
+    message
+		ingrediente
+    {
+      ...ingredienteObject
+    }
+  }
+}
+${INGREDIENTE_FRAGMENT}
+`;

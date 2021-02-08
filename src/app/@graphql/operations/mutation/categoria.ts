@@ -16,3 +16,36 @@ mutation addRegistro($Datos: CategoriaInput!)
 }
 ${CATEGORIA_FRAGMENT}
 `;
+
+export const MODIFY_CATEGORIA = gql`
+mutation actualizarCategoria($idSearch:Int!, $Datos:CategoriaInput!)
+{
+  updateCategoria(idCategoria:$idSearch, nuevoRegistro: $Datos)
+  {
+    status
+    message
+		categoria
+    {
+      ...categoriaObject
+    }
+  }
+}
+${CATEGORIA_FRAGMENT}
+`;
+
+
+export const DELETE_CATEGORIA = gql`
+mutation borrarCategoria($id: Int!)
+{
+  deleteCategoria(id: $id)
+  {
+    status
+    message
+		categoria
+    {
+      ...categoriaObject
+    }
+  }
+}
+${CATEGORIA_FRAGMENT}
+`;

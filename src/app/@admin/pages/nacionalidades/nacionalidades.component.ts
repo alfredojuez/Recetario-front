@@ -3,7 +3,7 @@ import { DocumentNode } from 'graphql';
 import { IResultData } from '@core/interfaces/result-data.interface';
 import { LISTA_NACIONALIDADES_QUERY } from '@graphql/operations/query/nacionalidad';
 import { ITableColumns } from '@core/interfaces/table-columns.interface';
-import { formBasicDialog, nacionalidadFormBasicDialog } from '@shared/alerts/alerts';
+import { nacionalidadFormBasicDialog } from '@shared/alerts/alerts';
 import { NacionalidadesService } from './nacionalidades.service';
 import { basicAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
@@ -51,7 +51,7 @@ export class NacionalidadesComponent implements OnInit {
   {
       const dCodigo = this.giveMeValue(nacionalidad.idNacionalidad);
       const dNombre = this.giveMeValue(nacionalidad.nombre);
-      const dFoto =  this.giveMeValue(nacionalidad.icono, 'nofoto.jpg');
+      const dFoto =   this.giveMeValue(nacionalidad.icono, 'no-photo.png');
       let newHTML = '';
 
       if (readonly)
@@ -72,9 +72,9 @@ export class NacionalidadesComponent implements OnInit {
       else
       {
         newHTML = `
-          <input id="nombre" value="${dNombre}" class="swal2-input" placeholder="Nombre" required>
-          <input id="idNacionalidad" value="${dCodigo}" class="swal2-input" placeholder="Descripcion">
-          <input id="icono" value="${dFoto}" class="swal2-input" placeholder="Familia">
+          <input id="nombre" value="${dNombre}"         class="mb-1 swal2-input" placeholder="Nombre" required>
+          <input id="idNacionalidad" value="${dCodigo}" class="mb-1 swal2-input" placeholder="Descripcion" required>
+          <input id="icono" value="${dFoto}"            class="mb-1 swal2-input" placeholder="Familia" required>
         `;
       }
       console.log(newHTML);
@@ -111,11 +111,11 @@ export class NacionalidadesComponent implements OnInit {
       console.log('* AÑADIR ====================================================');
       console.log(result);
 
-      this.service.addNacionalidad(result.value).subscribe((res: any) => {
+      this.service.add(result.value).subscribe((res: any) => {
         console.log(res);
 
         if (res.status) {
-          basicAlert(TYPE_ALERT.SUCCESS, res.mesage);
+          basicAlert(TYPE_ALERT.SUCCESS, res.message);
         } else {
           console.log(res);
           basicAlert(TYPE_ALERT.WARNING, res.message);

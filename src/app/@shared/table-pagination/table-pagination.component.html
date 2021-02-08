@@ -41,6 +41,9 @@
           
           <!-- TEXTOS -->
           <span *ngIf="val.typeElement == 'TEXT'">{{ data[val.property] }}</span>
+          
+          <!-- TEXTOS -->
+          <span *ngIf="val.typeElement == 'NUMBER'">{{ data[val.property] }}</span>
         </td>
         <td class="fa-pull-right">
             <button (click)="manageAction('info',  data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Información"><i class="fas fa-info"></i></button>

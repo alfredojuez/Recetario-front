@@ -17,19 +17,15 @@ export class LoginComponent {
   };
 
   constructor(private auth: AuthService, private router: Router) {
-    console.log('constructor');
+    console.log('constructor del login');
   }
 
   init() {
     this.router.navigate(['/']);
-    console.log('NO PARECE QUE ESTE HACIENDO EL INIT.....');
-    console.log(this.login);
     this.auth
       .login(this.login.email, this.login.pass)
       .subscribe((result: IResultLogin) => {
         if (result.status && result.token) {
-          console.log('TOKEN: ');
-          console.log(result.token);
           this.auth.setSession(result.token, 8); // guardamos la sesión durante 8 horas
           this.auth.updateSesion(result);
           basicAlert(TYPE_ALERT.SUCCESS, 'Acceso concedido', result.message); // informacion de login correcto.

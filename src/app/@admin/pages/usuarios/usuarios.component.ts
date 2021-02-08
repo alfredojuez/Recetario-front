@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IResultData } from '@core/interfaces/result-data.interface';
 import { ITableColumns } from '@core/interfaces/table-columns.interface';
 import { LISTA_USUARIOS_QUERY } from '@graphql/operations/query/usuario';
-import { formBasicDialog, usuarioFormBasicDialog } from '@shared/alerts/alerts';
+import { usuarioFormBasicDialog } from '@shared/alerts/alerts';
 import { basicAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
 import { DocumentNode } from 'graphql';
@@ -62,14 +62,15 @@ export class UsuariosComponent implements OnInit {
 
   private inicializeForm(usuario: any, readonly: boolean = false)
   {
-      const dEmail = this.giveMeValue(usuario.email);
-      const dNombre = this.giveMeValue(usuario.nombre);
-      const dApellidos = this.giveMeValue(usuario.apellidos);
-      const dUsuario = this.giveMeValue(usuario.usuario);
-      const dFechaNacimiento = this.giveMeValue(usuario.fecha_nacimiento);
-      const dFoto = this.giveMeValue(usuario.foto, 'nofoto.jpg');
-      const dNacionalidad = this.giveMeValue(usuario.nacionalidad);
-      const dPerfil = this.giveMeValue(usuario.perfil);
+      const dEmail =            this.giveMeValue(usuario.email);
+      const dNombre =           this.giveMeValue(usuario.nombre);
+      const dApellidos =        this.giveMeValue(usuario.apellidos);
+      const dUsuario =          this.giveMeValue(usuario.usuario);
+      const dPass =             this.giveMeValue(usuario.pass);
+      const dFechaNacimiento =  this.giveMeValue(usuario.fecha_nacimiento);
+      const dNacionalidad =     this.giveMeValue(usuario.nacionalidad);
+      const dPerfil =           this.giveMeValue(usuario.perfil);
+      const dFoto =             this.giveMeValue(usuario.foto, 'no-avatar.png');
 
       let newHTML = '';
 
@@ -91,21 +92,24 @@ export class UsuariosComponent implements OnInit {
         <br>
         <div class="Row"><b>Perfil:</b> ${dPerfil}      </div>
         <br>
-        <div class="Row"><b>Avatar</b> <img height="50px" src="/assets/img/categorias/${dFoto.toLowerCase()}"/>
+        <div class="Row"><b>Avatar:</b> <img height="250px" src="/assets/img/usuarios/${dFoto.toLowerCase()}"/>
         </div>
       `;
       }
       else
       {
         newHTML = `
-          <input id="email" value="${dEmail}"                       class="swal2-input" placeholder="Email" required>
-          <input id="nombre" value="${dNombre}"                     class="swal2-input" placeholder="Nombre" required>
-          <input id="apellidos" value="${dApellidos}"               class="swal2-input" placeholder="Apellidos">
-          <input id="usuario" value="${dUsuario}"                   class="swal2-input" placeholder="Usuario" required>
-          <input id="fecha_nacimiento" value="${dFechaNacimiento}"  class="swal2-input" placeholder="FechaNacimiento" required>
-          <input id="nacionalidad" value="${dNacionalidad}"         class="swal2-input" placeholder="Nacionalidad">
-          <input id="perfil" value="${dPerfil}"                     class="swal2-input" placeholder="Perfil">
-          <input id="foto" value="${dFoto}"                         class="swal2-input" placeholder="Foto">
+          <input id="email" value="${dEmail}"                       class="mb-1 swal2-input" placeholder="Email" required>
+          <input id="usuario" value="${dUsuario}"                   class="mb-1 swal2-input" placeholder="Usuario" required>
+          <input type="password" id="pass" value="${dPass}"         class="mb-1 swal2-input" placeholder="Contraseña" required>
+
+          <input id="nombre" value="${dNombre}"                     class="mb-1 swal2-input" placeholder="Nombre" required>
+          <input id="apellidos" value="${dApellidos}"               class="mb-1 swal2-input" placeholder="Apellidos">
+          <input id="fecha_nacimiento" value="${dFechaNacimiento}"  class="mb-1 swal2-input" placeholder="FechaNacimiento" required>
+
+          <input id="nacionalidad" value="${dNacionalidad}"         class="mb-1 swal2-input" placeholder="Nacionalidad">
+          <input id="perfil" value="${dPerfil}"                     class="mb-1 swal2-input" placeholder="Perfil">
+          <input id="foto" value="${dFoto}"                         class="mb-1 swal2-input" placeholder="Foto">
           `;
       }
       console.log(newHTML);
@@ -142,11 +146,11 @@ export class UsuariosComponent implements OnInit {
       console.log('* AÑADIR ====================================================');
       console.log(result);
 
-      this.service.addUsuario(result.value).subscribe((res: any) => {
+      this.service.add(result.value).subscribe((res: any) => {
         console.log(res);
 
         if (res.status) {
-          basicAlert(TYPE_ALERT.SUCCESS, res.mesage);
+          basicAlert(TYPE_ALERT.SUCCESS, res.message);
         } else {
           console.log(res);
           basicAlert(TYPE_ALERT.WARNING, res.message);
