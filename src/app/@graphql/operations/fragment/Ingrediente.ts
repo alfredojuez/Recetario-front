@@ -5,15 +5,15 @@ import gql from 'graphql-tag';
 // que sean visibles si include = false
 export const INGREDIENTE_FRAGMENT = gql`
   fragment ingredienteObject on Ingrediente {
-  idIngrediente
-  nombre
-  descripcion
-  foto
-  familia
-  calorias
-  fecha_alta
-  usuario_alta
-  fecha_modificacion
-  usuario_modificacion
+    idIngrediente
+    nombre
+    descripcion
+    foto
+    familia
+    calorias
+    fecha_alta
+    usuario_alta
+    fecha_modificacion
+    usuario_modificacion
   }
 `;

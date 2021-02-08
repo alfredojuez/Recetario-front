@@ -20,7 +20,6 @@ export const LISTA_NACIONALIDADES_QUERY = gql`
         }
       }
     }
-    ${ NACIONALIDAD_FRAGMENT}
-    ${ RESULT_INFO_FRAGMENT}
+    ${NACIONALIDAD_FRAGMENT}
+    ${RESULT_INFO_FRAGMENT}
 `;
-

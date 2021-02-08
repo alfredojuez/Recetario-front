@@ -1,7 +1,6 @@
-import { variable } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
 import { IRegisterForm } from '@core/interfaces/register.interface';
-import { REGISTER_USER } from '@graphql/operations/mutation/usuario';
+import { ADD_USUARIO } from '@graphql/operations/mutation/usuario';
 import { LISTA_USUARIOS_QUERY } from '@graphql/operations/query/usuario';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
@@ -28,7 +27,7 @@ export class UsersService extends ApiService {
   }
 
   register(DatosUsuario: IRegisterForm) {
-    return this.set(REGISTER_USER,
+    return this.set(ADD_USUARIO,
       {
           DatosUsuario,
           include: false,

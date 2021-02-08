@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
 import { DocumentNode } from 'graphql';
+// import { ConsoleReporter } from 'jasmine';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,6 @@ export class TablePaginationService extends ApiService
 
   getCollectionData(query: DocumentNode, variables: object = {}, context: object = {})
   {
-    console.log('getCollectionData  getCollectionData  getCollectionData')
-    console.log(variables)
-    return this.get(query, variables, context);
+    return  this.get(query, variables, context);
   }
 }

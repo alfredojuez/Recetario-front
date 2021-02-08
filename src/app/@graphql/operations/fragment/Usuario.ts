@@ -10,7 +10,6 @@ export const USUARIO_FRAGMENT = gql`
     nombre
     apellidos
     usuario
-    pass @include(if: $include)
     fecha_nacimiento
     foto
     nacionalidad

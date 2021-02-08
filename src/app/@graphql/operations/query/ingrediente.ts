@@ -20,7 +20,6 @@ export const LISTA_INGREDIENTES_QUERY = gql`
         }
       }
     }
-    ${ INGREDIENTE_FRAGMENT}
-    ${ RESULT_INFO_FRAGMENT}
+    ${INGREDIENTE_FRAGMENT}
+    ${RESULT_INFO_FRAGMENT}
 `;
-

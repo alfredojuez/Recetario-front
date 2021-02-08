@@ -1,19 +1,55 @@
+<button class="btn btn-success float-right mb-2"  (click)="manageAction('add', '')">
+  <i class="fas fa-plus-circle"></i> Añadir registro
+</button>
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
       <tr>
-        <th scope="col" *ngFor="let col of tableColumns">{{col.label}}</th>
-        </tr>
+        <th scope="col" *ngFor="let col of tableColumns">{{ col.label }}</th>
+        <th scope="col" style="width:200px">Acciones</th>
+      </tr>
     </thead>
     <tbody>
       <tr *ngFor="let data of data$ | async">
-        <td  *ngFor="let val of tableColumns">
-          <span *ngIf="val.typeElement=='IMG'">            
-            <img height="25px"   src ="{{ '/assets/img/banderas/' + data[val.property] | lowercase }}">
+        <td *ngFor="let val of tableColumns">
+
+          <!-- Gestionamos los distintos tipos de datos -->
+          <!-- IMAGENES -->
+          <span *ngIf="val.typeElement == 'IMG'"><img height="25px" src="{{'/assets/img/banderas/' + data[val.property] | lowercase}}"/></span>
+          
+          <!-- ACTIVO/INACTIVO -->
+          <span *ngIf="val.typeElement == 'ACTIVE'">
+            <span *ngIf="data[val.property] == true" class="text-success">
+              <i class="fas fa-lock-open"></i>
+            </span>
+            <span *ngIf="data[val.property] == false" class="text-danger">
+              <i class="fas fa-lock"></i>
+            </span>
+          </span>
+
+          <span *ngIf="val.typeElement == 'ICON'">
+            <span *ngIf="data[val.property] == 'ADMIN'" class="text-success">
+              <i class="fas fa-address-card text-primary fa-2x" title="Administrador"></i>
+            </span>
+            <span *ngIf="data[val.property] == 'COOKER'" class="text-success">
+              <i class="fas fa-award text-success fa-2x" title="Cocinero"></i>
+            </span>
+            <span *ngIf="data[val.property] == 'USER'" class="text-success">
+              <i class="fab fa-creative-commons-by text-dark fa-2x" title="Usuario"></i>
+            </span>
         </span>
-        <span *ngIf="val.typeElement!='IMG'">
-        {{ data[val.property] }}
-      </span>
+          
+          <!-- TEXTOS -->
+          <span *ngIf="val.typeElement == 'TEXT'">{{ data[val.property] }}</span>
+          
+          <!-- TEXTOS -->
+          <span *ngIf="val.typeElement == 'NUMBER'">{{ data[val.property] }}</span>
+        </td>
+        <td class="fa-pull-right">
+            <button (click)="manageAction('info',  data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Información"><i class="fas fa-info"></i></button>
+            <button (click)="manageAction('edit',  data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Editar"><i class="fas fa-edit"></i></button>
+            <button (click)="manageAction('block', data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Bloquear/desbloquear" *ngIf="bloqueable"><i class="fas fa-key"></i></button>
+            <button (click)="manageAction('del',   data)" type="button" style="width:40px" class="btn btn-danger" title="Eliminar"><i class="far fa-trash-alt"></i></button>
         </td>
       </tr>
     </tbody>
@@ -22,22 +58,23 @@
 
 <!-- Si solo hay una página que mostrar, no habilitamos los botones de navegacion -->
 <!-- El calculo de los botones se realiza entre collectionSize/pageSize -->
-<div class="d-flex justify-content-between p-2" *ngIf="infoPage.totalPages > 1">
+<div class="d-flex justify-content-between p-2">
   <ngb-pagination
     [collectionSize]="infoPage.totalItems"
     [(page)]="infoPage.page"
     [pageSize]="infoPage.itemsPage"
-    (pageChange) ="pageChange()"
+    (pageChange)="pageChange()"
   >
   </ngb-pagination>
 
-  
-  <select class="custom-select" style="width: auto" 
-          [(ngModel)]="infoPage.itemsPage" 
-          (ngModelChange)="loadData()">
+  <select
+    class="custom-select"
+    style="width: auto"
+    [(ngModel)]="infoPage.itemsPage"
+    (ngModelChange)="loadData()"
+  >
     <option [ngValue]="10">10 registros</option>
     <option [ngValue]="15">15 registros</option>
     <option [ngValue]="50">50 registros</option>
   </select>
-
 </div>

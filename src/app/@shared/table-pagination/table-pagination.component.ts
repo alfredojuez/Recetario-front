@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IInfoPage, IResultData } from '@core/interfaces/result-data.interface';
 import { LISTA_USUARIOS_QUERY } from '@graphql/operations/query/usuario';
 import { Observable } from 'rxjs/internal/Observable';
@@ -20,9 +20,11 @@ export class TablePaginationComponent implements OnInit {
   @Input() resultData: IResultData;
   @Input() include = true;
   @Input() tableColumns: Array<ITableColumns> = undefined;
+  @Input() bloqueable = false;
+
+  @Output() manageItem = new EventEmitter<any>();
 
   infoPage: IInfoPage;
-
   // El símbolo del $ indica que es un observable
   data$: Observable<any>;
   // Any => asi vale para categorias, ingredientes...
@@ -47,8 +49,6 @@ export class TablePaginationComponent implements OnInit {
 
   loadData()
   {
-    console.log('Llamada a loadData - Recargamos los datos...');
-    console.log(this.infoPage.itemsPage);
     const variables = {
       page:       this.infoPage.page,
       itemsPage:  this.infoPage.itemsPage,
@@ -57,6 +57,7 @@ export class TablePaginationComponent implements OnInit {
 
     this.data$ = this.service.getCollectionData(this.query,  variables, {}, ).pipe(
       map((result: any) => {
+
         const data = result[this.resultData.definitionKey];
         this.infoPage = data.info;
         return data[this.resultData.listKey];
@@ -66,8 +67,17 @@ export class TablePaginationComponent implements OnInit {
 
   pageChange()
   {
-    console.log(this.infoPage.page);
     this.loadData();
+  }
+
+  /**
+   * Funcion que ejecuta las distintas acciones que tengamos definidas en la tabla
+   * @param action  las acciones definidas son: add, info, edit, block y del
+   * @param data    conjunto de datos sobre los que interactuar.
+   */
+  manageAction(action: string, data: any)
+  {
+    this.manageItem.emit({accion: action, datos: data});   // para enviar el dato al padre
   }
 
 }

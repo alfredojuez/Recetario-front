@@ -4,7 +4,7 @@ export interface IIngrediente{
     descripcion: string;
     familia: string;
     foto: string;
-    calorias: number;
+    calorias: string;
     fecha_alta: string;
     usuario_alta: string;
     fecha_modificacion: string;
