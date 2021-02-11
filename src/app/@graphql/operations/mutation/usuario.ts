@@ -2,12 +2,12 @@ import gql from 'graphql-tag';
 import { USUARIO_FRAGMENT } from '@graphql/operations/fragment/Usuario';
 
 export const ADD_USUARIO = gql`
-mutation addUsuario($DatosUsuario: UsuarioInput!, $include: Boolean!) {
-    register(RegistroBD: $DatosUsuario) {
+mutation creaUsuario($DatosUsuario: UsuarioInput!, $include: Boolean!) {
+  addUsuario(usuario: $DatosUsuario) {
       status
       message
-      usuario {
-          ...UserObject
+      usuario{
+      ...userObject
       }
     }
   }
@@ -15,21 +15,19 @@ mutation addUsuario($DatosUsuario: UsuarioInput!, $include: Boolean!) {
 `;
 
 export const MODIFY_USUARIO = gql`
-mutation actualizarUsuario($idSearch:Int!, $Datos:UsuarioInput!)
+mutation actualizarUsuario($idSearch:Int!, $Datos: UsuarioInput!, $include: Boolean! = false)
 {
-  updateUsuario(id:$idSearch, nuevoRegistro: $Datos)
+  updateUsuario(id:$idSearch, usuario: $Datos)
   {
     status
     message
-		usuario
-    {
-      ...usuarioObject
+    usuario{
+      ...userObject
     }
   }
 }
 ${USUARIO_FRAGMENT}
 `;
-
 
 export const DELETE_USUARIO = gql`
 mutation borrarUsuario($id: Int!)
@@ -38,11 +36,28 @@ mutation borrarUsuario($id: Int!)
   {
     status
     message
-		usuario
-    {
-      ...usuarioObject
-    }
   }
 }
-${USUARIO_FRAGMENT}
+`;
+
+export const BLOCK_USER = gql`
+mutation bloqueaUsuario($idUsuario: Int!)
+{
+  blockUsuario(id: $idUsuario)
+  {
+    status
+    message
+  }
+}
+`;
+
+export const UNBLOCK_USER = gql`
+mutation desbloqueaUsuario($idUsuario: Int!)
+{
+  unblockUsuario(id: $idUsuario)
+  {
+    status
+    message
+  }
+}
 `;

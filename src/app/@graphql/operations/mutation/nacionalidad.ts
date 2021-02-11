@@ -18,13 +18,13 @@ ${NACIONALIDAD_FRAGMENT}
 `;
 
 export const MODIFY_NACIONALIDAD = gql`
-mutation actualizarNacionalidad($idSearch:Int!, $Datos:NacionalidadInput!)
+mutation actualizarNacionalidad($cod: String!, $Datos: NacionalidadInput!)
 {
-  updateNacionalidad(idNacionalidad:$idSearch, nuevoRegistro: $Datos)
+	updateNacionalidad(idNacionalidad:$cod, nuevoRegistro: $Datos)
   {
-    status
+  	status
     message
-		nacionalidad
+    nacionalidad
     {
       ...nacionalidadObject
     }
@@ -35,9 +35,9 @@ ${NACIONALIDAD_FRAGMENT}
 
 
 export const DELETE_NACIONALIDAD = gql`
-mutation borrarNacionalidad($id: Int!)
+mutation borrarNacionalidad($id: String!)
 {
-  deleteNacionalidad(id: $id)
+  deleteNacionalidad(idNacionalidad: $id)
   {
     status
     message

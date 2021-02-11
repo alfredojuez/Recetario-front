@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IInfoPage, IResultData } from '@core/interfaces/result-data.interface';
-import { LISTA_USUARIOS_QUERY } from '@graphql/operations/query/usuario';
 import { Observable } from 'rxjs/internal/Observable';
 import { DocumentNode } from 'graphql';
 import { map } from 'rxjs/internal/operators/map';
@@ -49,6 +48,8 @@ export class TablePaginationComponent implements OnInit {
 
   loadData()
   {
+    console.log('LEEMOS DATOS PARA LA TABLA');
+
     const variables = {
       page:       this.infoPage.page,
       itemsPage:  this.infoPage.itemsPage,
@@ -63,6 +64,11 @@ export class TablePaginationComponent implements OnInit {
         return data[this.resultData.listKey];
       }
     ));
+  }
+
+  refreshData()
+  {
+    this.loadData();
   }
 
   pageChange()

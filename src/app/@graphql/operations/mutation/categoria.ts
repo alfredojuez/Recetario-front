@@ -37,15 +37,10 @@ ${CATEGORIA_FRAGMENT}
 export const DELETE_CATEGORIA = gql`
 mutation borrarCategoria($id: Int!)
 {
-  deleteCategoria(id: $id)
+  deleteCategoria(idCategoria: $id)
   {
     status
     message
-		categoria
-    {
-      ...categoriaObject
-    }
   }
 }
-${CATEGORIA_FRAGMENT}
 `;

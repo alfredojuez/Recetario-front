@@ -27,6 +27,7 @@
             </span>
           </span>
 
+          <!-- PERFILES -->
           <span *ngIf="val.typeElement == 'ICON'">
             <span *ngIf="data[val.property] == 'ADMIN'" class="text-success">
               <i class="fas fa-address-card text-primary fa-2x" title="Administrador"></i>
@@ -37,12 +38,12 @@
             <span *ngIf="data[val.property] == 'USER'" class="text-success">
               <i class="fab fa-creative-commons-by text-dark fa-2x" title="Usuario"></i>
             </span>
-        </span>
+          </span>
           
           <!-- TEXTOS -->
           <span *ngIf="val.typeElement == 'TEXT'">{{ data[val.property] }}</span>
           
-          <!-- TEXTOS -->
+          <!-- NUMEROS -->
           <span *ngIf="val.typeElement == 'NUMBER'">{{ data[val.property] }}</span>
         </td>
         <td class="fa-pull-right">
@@ -78,3 +79,5 @@
     <option [ngValue]="50">50 registros</option>
   </select>
 </div>
+
+<br><button (click)="refreshData()" type="button" class="btn btn-info" title="Eliminar">Refrescar datos</button>

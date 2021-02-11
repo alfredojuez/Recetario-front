@@ -27,7 +27,7 @@ export function basicAlert(
 }
 
 export function topRightAlert( icon = TYPE_ALERT.INFO,  title: string = '', position: any = 'bottom-end')
-{ 
+{
     Swal.fire({
         position,
         icon,
