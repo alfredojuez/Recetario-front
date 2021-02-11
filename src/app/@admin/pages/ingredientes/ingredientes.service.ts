@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ADD_INGREDIENTE, MODIFY_INGREDIENTE } from '@graphql/operations/mutation/ingrediente';
+import { ADD_INGREDIENTE, DELETE_INGREDIENTE, MODIFY_INGREDIENTE } from '@graphql/operations/mutation/ingrediente';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/internal/operators/map';
@@ -28,9 +28,6 @@ export class IngredientesService extends ApiService {
       'addIngrediente'
     ).pipe(
       map((result: any) => {
-        console.log('-add-------------------------------------------');
-        console.log(result);
-        // return result.addIngrediente
         return result;
       })
     );
@@ -53,10 +50,24 @@ export class IngredientesService extends ApiService {
       'updateIngrediente'
     ).pipe(
       map((result: any) => {
-        console.log('-update-------------------------------------------');
-        console.log(result);
         return result;
       })
     );
   }
+
+  delete(id: number) {
+    return this.set(
+      DELETE_INGREDIENTE,
+      {
+        id,
+      },
+      {},
+      'deleteIngrediente'
+    ).pipe(
+      map((result: any) => {
+        return result;
+      })
+    );
+  }
+
 }

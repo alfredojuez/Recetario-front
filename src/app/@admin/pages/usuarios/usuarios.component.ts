@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { IResultData } from '@core/interfaces/result-data.interface';
 import { ITableColumns } from '@core/interfaces/table-columns.interface';
 import { LISTA_USUARIOS_QUERY } from '@graphql/operations/query/usuario';
-import { usuarioFormBasicDialog } from '@shared/alerts/alerts';
-import { basicAlert } from '@shared/alerts/toasts';
+import { confirmDetailBasic, infoDetailBasic, usuarioFormBasicDialog } from '@shared/alerts/alerts';
+import { topRightAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
+import { giveMeValue } from '@shared/functions/data-functions';
 import { DocumentNode } from 'graphql';
 import { UsuariosService } from './usuarios.service';
 
@@ -23,6 +24,12 @@ export class UsuariosComponent implements OnInit {
   bloqueable: boolean;
 
   constructor(private service: UsuariosService) { }
+  
+  iconosPerfil = {
+    USER: '<i class="fab fa-creative-commons-by text-dark fa-2x" title="Usuario"></i>',
+    ADMIN: '<i class="fas fa-address-card text-primary fa-2x" title="Administrador"></i>',
+    COOKER: '<i class="fas fa-award text-success fa-2x" title="Cocinero"></i>'
+    };
 
   ngOnInit(): void
   {
@@ -35,137 +42,209 @@ export class UsuariosComponent implements OnInit {
 
     console.log(this.bloqueable);
 
-    this.bloqueable = true;
+    this.bloqueable = true;   // indica si queremos el boton de bloqueo
 
     this.include = true;
     this.columns = [
       { property: 'activo', label: 'Estado', typeElement: 'ACTIVE'},
-      // { property: 'id', label: '#', typeElement: 'TEXT'},
-      // { property: 'nombre', label: 'Nombre', typeElement: 'TEXT'},
-      // { property: 'apellidos', label: 'Apellidos', typeElement: 'TEXT'},
       { property: 'usuario', label: 'Usuario', typeElement: 'TEXT'},
       { property: 'email', label: 'E-mail', typeElement: 'TEXT'},
-      // { property: 'foto', label: 'Avatar', typeElement: 'IMG'},
-      // { property: 'fecha_nacimiento', label: 'Cumpleaños', typeElement: 'TEXT'},
-      // { property: 'nacionalidad', label: 'Nacionalidad', typeElement: 'TEXT'},
-      // { property: 'ultimo_login', label: 'Última visita', typeElement: 'TEXT'},
-      // { property: 'fecha_alta', label: 'Fecha de registro', typeElement: 'TEXT'},
       { property: 'perfil', label: 'Perfil', typeElement: 'ICON'},
     ];
   }
 
-
-  giveMeValue(campo: any, porDefecto: string = '')
+  /**
+   * Formulario solo lectura con la información del usuario
+   * @param usuario  Datos a mostrar en el formulario
+   */
+  private infoForm(usuario: any) 
   {
-    return (campo !== undefined && campo !== null && campo !== '') ? campo : porDefecto;
-  }
-
-  private inicializeForm(usuario: any, readonly: boolean = false)
-  {
-      const dEmail =            this.giveMeValue(usuario.email);
-      const dNombre =           this.giveMeValue(usuario.nombre);
-      const dApellidos =        this.giveMeValue(usuario.apellidos);
-      const dUsuario =          this.giveMeValue(usuario.usuario);
-      const dPass =             this.giveMeValue(usuario.pass);
-      const dFechaNacimiento =  this.giveMeValue(usuario.fecha_nacimiento);
-      const dNacionalidad =     this.giveMeValue(usuario.nacionalidad);
-      const dPerfil =           this.giveMeValue(usuario.perfil);
-      const dFoto =             this.giveMeValue(usuario.foto, 'no-avatar.png');
-
-      let newHTML = '';
-
-      if (readonly)
-      {
-        newHTML = `
-        <div class="container p-3 my-3 border text-justify">
-        <div class="Row"><b>email:</b> ${dEmail}      </div>
+    return `
+    <div class="row">
+      <div class="col-7">
+            <div class="container p-3 my-3 text-justify">
+                <div class="Row"><b>email:</b> ${giveMeValue(usuario.email)}              </div>            <br>
+                <div class="Row"><b>Nombre:</b> ${giveMeValue(usuario.nombre)}            </div>            <br>
+                <div class="Row"><b>Apellidos:</b> ${giveMeValue(usuario.apellidos)}      </div>            <br>
+                <div class="Row"><b>Usuario:</b> ${giveMeValue(usuario.usuario)}          </div>            <br>
+                <div class="Row"><b>Fecha de nacimiento:</b> ${giveMeValue(usuario.fecha_nacimiento)}</div> <br>
+                <div class="Row"><b>Nacionalidad:</b> ${giveMeValue(usuario.nacionalidad)}</div>            <br>
+            </div>
+      </div>
+      <div class="col-4">
+        <div>
         <br>
-        <div class="Row"><b>Nombre:</b> ${dNombre}      </div>
-        <br>
-        <div class="Row"><b>Apellidos:</b> ${dApellidos}      </div>
-        <br>
-        <div class="Row"><b>Usuario:</b> ${dUsuario}      </div>
-        <br>
-        <div class="Row"><b>Fecha de nacimiento:</b> ${dFechaNacimiento}      </div>
-        <br>
-        <div class="Row"><b>Nacionalidad:</b> ${dNacionalidad}      </div>
-        <br>
-        <div class="Row"><b>Perfil:</b> ${dPerfil}      </div>
-        <br>
-        <div class="Row"><b>Avatar:</b> <img height="250px" src="/assets/img/usuarios/${dFoto.toLowerCase()}"/>
+            <div class="Row"><h3>Perfil: ${this.iconosPerfil[giveMeValue(usuario.perfil)]}</h3></div>
+            <br>
+            <img height="250px" src="/assets/img/usuarios/${giveMeValue(usuario.foto, 'no-avatar.png').toLowerCase()}"/>
         </div>
-      `;
-      }
-      else
-      {
-        newHTML = `
-          <input id="email" value="${dEmail}"                       class="mb-1 swal2-input" placeholder="Email" required>
-          <input id="usuario" value="${dUsuario}"                   class="mb-1 swal2-input" placeholder="Usuario" required>
-          <input type="password" id="pass" value="${dPass}"         class="mb-1 swal2-input" placeholder="Contraseña" required>
+      </div>
 
-          <input id="nombre" value="${dNombre}"                     class="mb-1 swal2-input" placeholder="Nombre" required>
-          <input id="apellidos" value="${dApellidos}"               class="mb-1 swal2-input" placeholder="Apellidos">
-          <input id="fecha_nacimiento" value="${dFechaNacimiento}"  class="mb-1 swal2-input" placeholder="FechaNacimiento" required>
-
-          <input id="nacionalidad" value="${dNacionalidad}"         class="mb-1 swal2-input" placeholder="Nacionalidad">
-          <input id="perfil" value="${dPerfil}"                     class="mb-1 swal2-input" placeholder="Perfil">
-          <input id="foto" value="${dFoto}"                         class="mb-1 swal2-input" placeholder="Foto">
-          `;
-      }
-      console.log(newHTML);
-
-      return newHTML;
+    </div>
+        `;
   }
 
-  async takeAction($event) {
-    try {
-      const accion = $event.accion;
-      const datos = $event.datos;
-      console.log(accion);
-      console.log(datos);
+  /**
+   * Inicializamos el codigo de formulario para el usuario
+   * @param usuario       Objeto de BD con la información a mostrar
+   */
+  private inicializeForm(usuario: any) {
+    return `
+    <input id="email" value="${giveMeValue(usuario.email)}"                       class="mb-1 swal2-input" placeholder="Email" required>
+    <input id="usuario" value="${giveMeValue(usuario.usuario)}"                   class="mb-1 swal2-input" placeholder="Usuario" required>
+    <input type="password" id="pass" value="${giveMeValue(usuario.pass)}"         class="mb-1 swal2-input" placeholder="Contraseña" required>
 
-      if (accion === 'add') {
-        this.newUsuario(await usuarioFormBasicDialog('Añadir usuario', this.inicializeForm(datos))
+    <input id="nombre" value="${giveMeValue(usuario.nombre)}"                     class="mb-1 swal2-input" placeholder="Nombre" required>
+    <input id="apellidos" value="${giveMeValue(usuario.apellidos)}"               class="mb-1 swal2-input" placeholder="Apellidos">
+    <input id="fecha_nacimiento" value="${giveMeValue(usuario.fecha_nacimiento)}" class="mb-1 swal2-input" placeholder="FechaNacimiento" required>
+
+    <input id="nacionalidad" value="${giveMeValue(usuario.nacionalidad)}"         class="mb-1 swal2-input" placeholder="Nacionalidad">
+    <input id="perfil" value="${giveMeValue(usuario.perfil)}"                     class="mb-1 swal2-input" placeholder="Perfil">
+    <input id="foto" value="${giveMeValue(usuario.foto, 'no-avatar.png')}"        class="mb-1 swal2-input" placeholder="Foto">
+    `;
+  }
+
+  /**
+   * Generamos el codigo del título con el icono del usuario
+   * @param texto   Nombre de la acción que estemos haciendo
+   */
+  private getTitulo(texto: string) {
+    return `<div>${texto} - <i class="fas fa-sitemap"></i> </div>`;
+  }
+
+  /**
+   * Cada uno de los botones de la tabla lanzará una acción, aquí las recogemos todas y las procesamos
+   * @param $event  Objeto con la tupla acción y datos del registro.
+   */
+  async takeAction($event: any)
+  {
+    const accion = $event.accion;
+    const datos = $event.datos;
+    switch (accion)
+    {
+      case 'info':
+        infoDetailBasic(this.getTitulo('Detalle del usuario'), this.infoForm(datos), 800);
+        break;
+      case 'add':
+        this.addUsuario(
+          await usuarioFormBasicDialog('Añadir usuario', this.inicializeForm(datos)
+          )
         );
-      }
-      if (accion === 'info') {
-        this.editUsuario(await usuarioFormBasicDialog('Detalle del usuario', this.inicializeForm(datos, true))
+        break;
+      case 'edit':
+        this.updateUsuario(datos.id,
+          await usuarioFormBasicDialog('Editar usuario', this.inicializeForm(datos)
+          )
         );
-      }
-      if (accion === 'edit') {
-        this.editUsuario(await usuarioFormBasicDialog('Editar usuario', this.inicializeForm(datos))
-        );
-      }
-    } catch (error) {
-      basicAlert(TYPE_ALERT.ERROR, error);
+        break;
+      case 'del':
+        this.deleteUsuario(datos.id, await confirmDetailBasic(this.getTitulo('Eliminación de usuario'), this.infoForm(datos), 'Eliminar usuario', 'Cancelar', 800));
+        break;
+      case 'block':
+        const textoAccion = (datos.activo) ? 'Bloquear' : 'Desbloquear';
+        // tslint:disable-next-line: max-line-length
+        this.blockUsuario(datos, await confirmDetailBasic(this.getTitulo('Bloqueo/desbloqueo de usuario'), this.infoForm(datos), textoAccion, 'Cancelar', 800));
+        break;
     }
   }
 
-  newUsuario(result: any) {
-    if (result.value) {
-      console.log('* AÑADIR ====================================================');
-      console.log(result);
+  // newUsuario(result: any) {
+  //   if (result.value) {
+  //     console.log('* AÑADIR ====================================================');
+  //     console.log(result);
 
-      this.service.add(result.value).subscribe((res: any) => {
-        console.log(res);
+  //     this.service.add(result.value).subscribe((res: any) => {
+  //       console.log(res);
 
-        if (res.status) {
-          basicAlert(TYPE_ALERT.SUCCESS, res.message);
-        } else {
-          console.log(res);
-          basicAlert(TYPE_ALERT.WARNING, res.message);
-        }
+  //       if (res.status) {
+  //         basicAlert(TYPE_ALERT.SUCCESS, res.message);
+  //       } else {
+  //         console.log(res);
+  //         basicAlert(TYPE_ALERT.WARNING, res.message);
+  //       }
+  //     });
+  //   } else {
+  //     console.log('operacion cancelada');
+  //   }
+  // }
+
+  // editUsuario(result: any) {
+  //   console.log('* EDITAR ====================================================');
+  //   console.log(result.value);
+
+  //   console.log(result);
+  // }
+
+  /**
+   * Añadimos una nueva categoría
+   * @param result  Respuesta dada en el modal de solicitud de datos.
+   */
+  addUsuario(result: any) {
+    if (result.isConfirmed && result.value) {
+        // llamamos al sercicio de creacion del registro
+        this.service.add(result.value).subscribe((res: any) =>
+        {
+          (res.status)
+            ? topRightAlert(TYPE_ALERT.SUCCESS, res.message)
+            : topRightAlert(TYPE_ALERT.WARNING, res.message);
+        });
+    } else {
+      topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
+    }
+  }
+
+  /**
+   * Actualizamos los datos de la ficha seleccionada
+   * @param id      ID del registro a actualizar
+   * @param result  Datos obtenidos del formulario de edición
+   */
+  updateUsuario(id: number, result: any) {
+    if (result.isConfirmed && result.value) {
+      this.service.update(id, result.value).subscribe((res: any) => {
+        (res.status)
+        ? topRightAlert(TYPE_ALERT.SUCCESS, res.message)
+        : topRightAlert(TYPE_ALERT.WARNING, res.message);
       });
     } else {
-      console.log('operacion cancelada');
+      topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
   }
 
-  editUsuario(result: any) {
-    console.log('* EDITAR ====================================================');
-    console.log(result.value);
+  /**
+   * Eliminamos un registro de la BD si se puede
+   * @param id      ID del registro a eliminar
+   * @param result  Resultado del modal para la confirmación de la eliminación
+   */
+  deleteUsuario(id: number, result: boolean) {
+    if (result) {
+      this.service.delete(id).subscribe((res: any) => {
+        (res.status)
+        ? topRightAlert(TYPE_ALERT.SUCCESS, res.message)
+        : topRightAlert(TYPE_ALERT.WARNING, res.message);
+      });
+    } else {
+      topRightAlert(TYPE_ALERT.INFO, 'Operacion cancelada');
+    }
+  }
 
-    console.log(result);
+  /**
+   * Eliminamos un registro de la BD si se puede
+   * @param id      ID del registro a eliminar
+   * @param result  Resultado del modal para la confirmación de la eliminación
+   */
+  blockUsuario(datos: any, result: boolean) {
+    if (result)
+    {
+      // NO confirmamos primero si hay que bloquear o desbloquear el usuario
+      // porque lo que hacemos es cambiar el estado.
+      this.service.block(datos.id, datos).subscribe((res: any) => {
+        (res.status)
+        ? topRightAlert(TYPE_ALERT.SUCCESS, res.message)
+        : topRightAlert(TYPE_ALERT.WARNING, res.message);
+      });
+    } else {
+      topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
+    }
   }
 
 }

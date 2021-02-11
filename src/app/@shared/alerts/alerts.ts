@@ -28,12 +28,12 @@ export async function simpleInputDialog(title: string, html: string, property: s
       });
 }
 
-
 export function infoDetailBasic(title: string, html: string, width: number = 500)
 {
   Swal.fire({
     title,
     html,
+    width,
     confirmButtonText: 'Cerrar información',
     confirmButtonColor: OK_BUTTON
   });
@@ -51,7 +51,29 @@ const swalWithBasicOptions = (title: string, html: string, width: number = 500, 
     // si estamos en modo readonly solo mostramos un boton, que será el de cancelación de ventana (sin efecto)
     showCancelButton: true,
     showConfirmButton: !readonly,
+});
+
+export async function confirmDetailBasic( title: string,
+                                          html: string,
+                                          confirmButtonText: string = 'Eliminar',
+                                          cancelButtonText: string = 'Cancelar',
+                                          width: number = 500)
+{
+  return await Swal.fire({
+    title,
+    html,
+    // icon: 'warning',
+    width, 
+    confirmButtonText,
+    confirmButtonColor: OK_BUTTON,
+    showCancelButton: true,
+    cancelButtonText,
+    cancelButtonColor: KO_BUTTON,
+  }).then((result) => {
+    return result.value ? true : false;
   });
+}
+
 
 export async function categoriaFormBasicDialog(title: string, html: string, width: number = 500, readonly: boolean = false) {
     return await swalWithBasicOptions(title, html, width, readonly).fire({
@@ -69,7 +91,7 @@ export async function categoriaFormBasicDialog(title: string, html: string, widt
         };
       },
     });
-  }
+}
 
 export async function ingredienteFormBasicDialog(title: string, html: string, width: number = 500) {
     return await swalWithBasicOptions(title, html, width).fire({
@@ -92,7 +114,7 @@ export async function ingredienteFormBasicDialog(title: string, html: string, wi
         };
       },
     });
-  }
+}
 
 export async function nacionalidadFormBasicDialog(title: string, html: string, width: number = 500) {
     return await swalWithBasicOptions(title, html, width).fire({
@@ -100,7 +122,7 @@ export async function nacionalidadFormBasicDialog(title: string, html: string, w
         // Mostramos valores de error para los campos obligatorios
         const idNacionalidad = (document.getElementById('idNacionalidad') as HTMLInputElement).value;
         if (!idNacionalidad) {      Swal.showValidationMessage('El codigo de nacion es obligatorio');           }
-        const nombre = (document.getElementById('descripcion') as HTMLInputElement).value;
+        const nombre = (document.getElementById('nombre') as HTMLInputElement).value;
         if (!nombre) {              Swal.showValidationMessage('El nombre de la nacion es obligatorio');                }
         const icono = (document.getElementById('icono') as HTMLInputElement).value;
         if (!icono) {               Swal.showValidationMessage('El icono de la bandera de la nacion es obligatorio');    }
@@ -111,8 +133,7 @@ export async function nacionalidadFormBasicDialog(title: string, html: string, w
         };
       },
     });
-  }
-
+}
 
 export async function usuarioFormBasicDialog(title: string, html: string, width: number = 500) {
   return await swalWithBasicOptions(title, html, width).fire({
@@ -130,15 +151,15 @@ export async function usuarioFormBasicDialog(title: string, html: string, width:
       const fechaNacimiento = (document.getElementById('fecha_nacimiento') as HTMLInputElement).value;
       if (!fechaNacimiento){ Swal.showValidationMessage('La fecha de nacimiento es obligatoria');   }
       const nacionalidad = (document.getElementById('nacionalidad') as HTMLInputElement).value;
-      const perfil = (document.getElementById('perfil') as HTMLInputElement).value;
-      const foto = (document.getElementById('foto') as HTMLInputElement).value;
+      const perfil =    (document.getElementById('perfil') as HTMLInputElement).value;
+      const foto =      (document.getElementById('foto') as HTMLInputElement).value;
       return {
         email,
         nombre,
         apellidos,
         usuario,
         pass,
-        fechaNacimiento,
+        fecha_nacimiento: fechaNacimiento,
         nacionalidad,
         perfil,
         foto,

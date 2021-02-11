@@ -41,11 +41,9 @@ export class ApiService {
 
   protected set(query: DocumentNode, variables: object = {}, context: object = {}, key: string = '')
   {
-    const dataToken = (this.getSession() as ISession).token;
-    context =
-    {
-      headers: new HttpHeaders({ authorization: dataToken, }),
-    };
+    // inyectamos el token en todas las peticiones
+    
+    context =    { headers: new HttpHeaders({ authorization: (this.getSession() as ISession).token }), };
 
     return this.apollo.mutate({
       mutation: query,
@@ -53,11 +51,7 @@ export class ApiService {
       context
     }).pipe(map(result => {
 
-
     const res = JSON.parse(JSON.stringify(result.data))[key];
-
-    console.log(res);
-
     return res;
   }));
   }

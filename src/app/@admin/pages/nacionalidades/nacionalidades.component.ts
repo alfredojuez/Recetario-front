@@ -3,10 +3,11 @@ import { DocumentNode } from 'graphql';
 import { IResultData } from '@core/interfaces/result-data.interface';
 import { LISTA_NACIONALIDADES_QUERY } from '@graphql/operations/query/nacionalidad';
 import { ITableColumns } from '@core/interfaces/table-columns.interface';
-import { nacionalidadFormBasicDialog } from '@shared/alerts/alerts';
+import { confirmDetailBasic, infoDetailBasic, nacionalidadFormBasicDialog } from '@shared/alerts/alerts';
 import { NacionalidadesService } from './nacionalidades.service';
-import { basicAlert } from '@shared/alerts/toasts';
+import { topRightAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
+import { giveMeValue } from '@shared/functions/data-functions';
 
 @Component({
   selector: 'app-nacionalidades',
@@ -31,7 +32,7 @@ export class NacionalidadesComponent implements OnInit {
        definitionKey: 'ListadoNacionalidades',
        listKey: 'nacionalidades',
     };
-    this.bloqueable = false;
+    this.bloqueable = false;  // indica si queremos el boton de bloqueo
 
     // this.include = false;
     this.columns = [
@@ -42,96 +43,128 @@ export class NacionalidadesComponent implements OnInit {
   }
 
 
-  giveMeValue(campo: any, porDefecto: string = '')
+  /**
+   * Formulario solo lectura con la información del ingrediente
+   * @param ingrediente  Datos a mostrar en el formulario
+   */
+  private infoForm(nacionalidad: any)
   {
-    return (campo !== undefined && campo !== null && campo !== '') ? campo : porDefecto;
+    return `
+            <div class="container p-3 my-3 border text-justify">
+              <div class="Row"><b>Nombre:</b> ${giveMeValue(nacionalidad.nombre)}  </div>          <br>
+              <div class="Row"><b>COD:</b> ${giveMeValue(nacionalidad.idNacionalidad)}     </div>          <br>
+              <div class="Row"><b>Escudo:</b> ${giveMeValue(nacionalidad.icono, 'no-photo.png')}    </div>          <br>
+              <div class="Row"><b>Escudo:</b> <img height="50px" src="/assets/img/banderas/${giveMeValue(nacionalidad.icono, 'no-photo.png').toLowerCase()}"/>
+              </div>
+            </div>
+          `;
   }
 
-  private inicializeForm(nacionalidad: any, readonly: boolean = false)
+  /**
+   * Inicializamos el codigo de formulario para los ingredientes
+   * @param ingrediente       Objeto de BD con la información a mostrar
+   */
+ private inicializeForm(nacionalidad: any)
   {
-      const dCodigo = this.giveMeValue(nacionalidad.idNacionalidad);
-      const dNombre = this.giveMeValue(nacionalidad.nombre);
-      const dFoto =   this.giveMeValue(nacionalidad.icono, 'no-photo.png');
-      let newHTML = '';
-
-      if (readonly)
-      {
-        newHTML = `
-        <div class="container p-3 my-3 border text-justify">
-          <div class="Row"><b>Nombre:</b> ${dNombre}      </div>
-          <br>
-          <div class="Row"><b>COD:</b> ${dCodigo}  </div>
-          <br>
-          <div class="Row"><b>Escudo:</b> ${dFoto}  </div>
-          <br>
-          <div class="Row"><b>Escudo:</b> <img height="50px" src="/assets/img/banderas/${dFoto.toLowerCase()}"/>
-          </div>
-        </div>
-      `;
-      }
-      else
-      {
-        newHTML = `
-          <input id="nombre" value="${dNombre}"         class="mb-1 swal2-input" placeholder="Nombre" required>
-          <input id="idNacionalidad" value="${dCodigo}" class="mb-1 swal2-input" placeholder="Descripcion" required>
-          <input id="icono" value="${dFoto}"            class="mb-1 swal2-input" placeholder="Familia" required>
-        `;
-      }
-      console.log(newHTML);
-
-      return newHTML;
+      return `
+              <input id="idNacionalidad" value="${giveMeValue(nacionalidad.idNacionalidad)}"  class="mb-1 swal2-input" placeholder="Codigo" required>
+              <input id="nombre" value="${giveMeValue(nacionalidad.nombre)}"                  class="mb-1 swal2-input" placeholder="Nombre" required>
+              <input id="icono" value="${giveMeValue(nacionalidad.icono, 'no-photo.png')}"    class="mb-1 swal2-input" placeholder="Familia" required>
+            `;
   }
 
-  async takeAction($event) {
-    try {
-      const accion = $event.accion;
-      const datos = $event.datos;
-      console.log(accion);
-      console.log(datos);
+  /**
+   * Generamos el codigo del título con el icono del ingrediente
+   * @param texto   Nombre de la acción que estemos haciendo
+   */
+  private getTitulo(texto: string)
+  {
+    return `<div>${ texto } - <i class="fas fa-flag-checkered"></i> </div>`;
+  }
 
-      if (accion === 'add') {
-        this.newNacionalidad(await nacionalidadFormBasicDialog('Añadir nacionalidad', this.inicializeForm(datos))
+  /**
+   * Cada uno de los botones de la tabla lanzará una acción, aquí las recogemos todas y las procesamos
+   * @param $event  Objeto con la tupla acción y datos del registro.
+   */
+  async takeAction($event: any) {
+    const accion = $event.accion;
+    const datos = $event.datos;
+
+    switch (accion) {
+      case 'info':
+        infoDetailBasic(this.getTitulo('Detalle de la nacionalidad'), this.infoForm(datos)
         );
-      }
-      if (accion === 'info') {
-        this.editNacionalidad(await nacionalidadFormBasicDialog('Detalle de la nacionalidad', this.inicializeForm(datos, true), 1000)
+        break;
+      case 'add':
+        this.addNacionalidad(
+          await nacionalidadFormBasicDialog('Añadir nacionalidad', this.inicializeForm(datos)
+          )
         );
-      }
-      if (accion === 'edit') {
-        this.editNacionalidad(await nacionalidadFormBasicDialog('Editar nacionalidad', this.inicializeForm(datos))
+        break;
+      case 'edit':
+        this.updateNacionalidad(datos.idNacionalidad,
+          await nacionalidadFormBasicDialog('Editar nacionalidad', this.inicializeForm(datos)
+          )
         );
-      }
-    } catch (error) {
-      basicAlert(TYPE_ALERT.ERROR, error);
+        break;
+      case 'del':
+        this.deleteNacionalidad(datos.idNacionalidad,
+          await confirmDetailBasic(this.getTitulo('Eliminación de nacionalidad'), this.infoForm(datos)
+          )
+        );
+        break;
+    }
+}
+  /**
+   * Añadimos una nueva categoría
+   * @param result  Respuesta dada en el modal de solicitud de datos.
+   */
+  addNacionalidad(result: any) {
+    if (result.isConfirmed && result.value) {
+        // llamamos al sercicio de creacion del registro
+        this.service.add(result.value).subscribe((res: any) =>
+        {
+          (res.status)
+            ? topRightAlert(TYPE_ALERT.SUCCESS, res.message)
+            : topRightAlert(TYPE_ALERT.WARNING, res.message);
+        });
+    } else {
+      topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
   }
 
-  newNacionalidad(result: any) {
-    if (result.value) {
-      console.log('* AÑADIR ====================================================');
-      console.log(result);
-
-      this.service.add(result.value).subscribe((res: any) => {
-        console.log(res);
-
-        if (res.status) {
-          basicAlert(TYPE_ALERT.SUCCESS, res.message);
-        } else {
-          console.log(res);
-          basicAlert(TYPE_ALERT.WARNING, res.message);
-        }
+  /**
+   * Actualizamos los datos de la ficha seleccionada
+   * @param id      ID del registro a actualizar
+   * @param result  Datos obtenidos del formulario de edición
+   */
+  updateNacionalidad(id: string, result: any) {
+    if (result.isConfirmed && result.value) {
+      this.service.update(id, result.value).subscribe((res: any) => {
+        (res.status)
+        ? topRightAlert(TYPE_ALERT.SUCCESS, res.message)
+        : topRightAlert(TYPE_ALERT.WARNING, res.message);
       });
     } else {
-      console.log('operacion cancelada');
+      topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
   }
 
-  editNacionalidad(result: any) {
-    console.log('* EDITAR ====================================================');
-    console.log(result.value);
-
-    console.log(result);
+  /**
+   * Eliminamos un registro de la BD si se puede
+   * @param id      ID del registro a eliminar
+   * @param result  Resultado del modal para la confirmación de la eliminación
+   */
+  deleteNacionalidad(id: string, result: boolean) {
+    if (result) {
+      this.service.delete(id).subscribe((res: any) => {
+        (res.status)
+        ? topRightAlert(TYPE_ALERT.SUCCESS, res.message)
+        : topRightAlert(TYPE_ALERT.WARNING, res.message);
+      });
+    } else {
+      topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
+    }
   }
-
 
 }

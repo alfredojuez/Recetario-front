@@ -37,7 +37,7 @@ ${INGREDIENTE_FRAGMENT}
 export const DELETE_INGREDIENTE = gql`
 mutation borrarIngrediente($id: Int!)
 {
-  deleteIngrediente(id: $id)
+  deleteIngrediente(idIngrediente: $id)
   {
     status
     message

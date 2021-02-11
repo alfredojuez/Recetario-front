@@ -3,10 +3,11 @@ import { DocumentNode } from 'graphql';
 import { IResultData } from '@core/interfaces/result-data.interface';
 import { LISTA_INGREDIENTES_QUERY } from '@graphql/operations/query/ingrediente';
 import { ITableColumns } from '@core/interfaces/table-columns.interface';
-import { infoDetailBasic, ingredienteFormBasicDialog } from '@shared/alerts/alerts';
+import { confirmDetailBasic, infoDetailBasic, ingredienteFormBasicDialog } from '@shared/alerts/alerts';
 import { IngredientesService } from './ingredientes.service';
-import { basicAlert, topRightAlert } from '@shared/alerts/toasts';
+import { topRightAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
+import { giveMeValue } from '@shared/functions/data-functions';
 
 @Component({
   selector: 'app-ingredientes',
@@ -40,11 +41,10 @@ export class IngredientesComponent implements OnInit {
     ];
   }
 
-  giveMeValue(campo: any, porDefecto: string = '')
-  {
-    return (campo !== undefined && campo !== null && campo !== '') ? campo : porDefecto;
-  }
-
+  /**
+   * Formulario solo lectura con la información del ingrediente
+   * @param ingrediente  Datos a mostrar en el formulario
+   */
   private infoForm(ingrediente: any)
   {
     return `
@@ -62,114 +62,113 @@ export class IngredientesComponent implements OnInit {
         `;
   }
 
-  private inicializeForm(ingrediente: any)
+  /**
+   * Inicializamos el codigo de formulario para los ingredientes
+   * @param ingrediente       Objeto de BD con la información a mostrar
+   */
+ private inicializeForm(ingrediente: any)
   {
-      const dNombre =       this.giveMeValue(ingrediente.nombre);
-      const dDescripcion =  this.giveMeValue(ingrediente.descripcion);
-      const dFamilia =      this.giveMeValue(ingrediente.familia);
-      const dCalorias =     this.giveMeValue(ingrediente.calorias);
-      const dFoto =         this.giveMeValue(ingrediente.foto, 'no-photo.png');
-
-      const newHTML = `
-        <input type="text" id="nombre" value="${dNombre}"           class="mb-1 swal2-input" placeholder="Nombre" required>
-        <input type="text" id="descripcion" value="${dDescripcion}" class="mb-1 swal2-input" placeholder="Descripcion">
-        <input type="text" id="familia" value="${dFamilia}"         class="mb-1 swal2-input" placeholder="Familia">
-        <input type="text" id="calorias" value="${dCalorias}"       class="mb-1 swal2-input" placeholder="Calorias">
-        <input type="text" id="foto" value="${dFoto}"               class="mb-1 swal2-input" placeholder="Foto">
+      return `
+        <input type="text" id="nombre" value="${giveMeValue(ingrediente.nombre)}"             class="mb-1 swal2-input" placeholder="Nombre" required>
+        <input type="text" id="descripcion" value="${giveMeValue(ingrediente.descripcion)}"   class="mb-1 swal2-input" placeholder="Descripcion">
+        <input type="text" id="familia" value="${giveMeValue(ingrediente.familia)}"           class="mb-1 swal2-input" placeholder="Familia">
+        <input type="text" id="calorias" value="${giveMeValue(ingrediente.calorias)}"         class="mb-1 swal2-input" placeholder="Calorias">
+        <input type="text" id="foto" value="${giveMeValue(ingrediente.foto, 'no-photo.png')}" class="mb-1 swal2-input" placeholder="Foto">
       `;
-
-      return newHTML;
   }
 
+  /**
+   * Generamos el codigo del título con el icono del ingrediente
+   * @param texto   Nombre de la acción que estemos haciendo
+   */
   private getTitulo(texto: string)
   {
     return `<div>${ texto } - <i class="fas fa-carrot"></i> </div>`;
   }
 
-  async takeAction($event) {
-    try {
-      const accion = $event.accion;
-      const datos = $event.datos;
-      console.log(accion);
-      console.log(datos);
+  /**
+   * Cada uno de los botones de la tabla lanzará una acción, aquí las recogemos todas y las procesamos
+   * @param $event  Objeto con la tupla acción y datos del registro.
+   */
+  async takeAction($event: any) {
+    const accion = $event.accion;
+    const datos = $event.datos;
 
-      if (accion === 'info') {
-        infoDetailBasic(this.getTitulo('Detalle de la ingrediente'),
-                        this.infoForm(datos));
-        return;
-      }
-      if (accion === 'add') {
-        this.addIngrediente(await ingredienteFormBasicDialog('Añadir ingrediente', this.inicializeForm(datos)));
-      }
-      if (accion === 'edit') {
-        this.updateIngrediente(datos.idIngrediente, await ingredienteFormBasicDialog('Editar ingrediente', this.inicializeForm(datos)));
-        return;
-      }
-      if (accion === 'del') {
-        // TODO: antes de eliminar una ingrediente hay que verificar que no esté asociada a ninguna receta.
-        infoDetailBasic(this.getTitulo('Eliminación de ingrediente'), '');
-        return;
-      }
-    } catch (error) {
-      topRightAlert(TYPE_ALERT.ERROR, error, 'center');
+    switch (accion) {
+      case 'info':
+        infoDetailBasic(this.getTitulo('Detalle del ingrediente'), this.infoForm(datos)
+        );
+        break;
+      case 'add':
+        this.addIngrediente(
+          await ingredienteFormBasicDialog('Añadir ingrediente', this.inicializeForm(datos)
+          )
+        );
+        break;
+      case 'edit':
+        this.updateIngrediente(datos.idIngrediente,
+          await ingredienteFormBasicDialog('Editar ingrediente', this.inicializeForm(datos)
+          )
+        );
+        break;
+      case 'del':
+        this.deleteIngrediente(datos.idIngrediente,
+          await confirmDetailBasic(this.getTitulo('Eliminación de ingrediente'), this.infoForm(datos)
+          )
+        );
+        break;
     }
-  }
-
-  viewIngrediente(result: any) {
-    console.log('* VER INFO  ====================================================');
-    console.log(result.value);
-    console.log(result);
-  }
-
+}
+  /**
+   * Añadimos una nueva categoría
+   * @param result  Respuesta dada en el modal de solicitud de datos.
+   */
   addIngrediente(result: any) {
-    if (result.isConfirmed)
-    {
-
-        console.log('* AÑADIR ====================================================');
-        console.log(result);
-        console.log(result.value);
-
-        if (result.value) {
-          this.service.add(result.value).subscribe((res: any) => {
-            console.log(res);
-
-            if (res.status) {
-              topRightAlert(TYPE_ALERT.SUCCESS, res.message);
-              return;
-            } else {
-              console.log(res);
-              topRightAlert(TYPE_ALERT.WARNING, res.message);
-            }
-          });
-        } else {
-          console.log('operacion cancelada');
-        }
-
-
-    }
-    else{
-      console.log('operacion cancelada')
+    if (result.isConfirmed && result.value) {
+        // llamamos al sercicio de creacion del registro
+        this.service.add(result.value).subscribe((res: any) =>
+        {
+          (res.status)
+            ? topRightAlert(TYPE_ALERT.SUCCESS, res.message)
+            : topRightAlert(TYPE_ALERT.WARNING, res.message);
+        });
+    } else {
+      topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
   }
 
+  /**
+   * Actualizamos los datos de la ficha seleccionada
+   * @param id      ID del registro a actualizar
+   * @param result  Datos obtenidos del formulario de edición
+   */
   updateIngrediente(id: number, result: any) {
-      console.log('* EDITAR ====================================================');
-      console.log(id);
-      console.log(result.value);
-      console.log(result);
+    if (result.isConfirmed && result.value) {
+      this.service.update(id, result.value).subscribe((res: any) => {
+        (res.status)
+        ? topRightAlert(TYPE_ALERT.SUCCESS, res.message)
+        : topRightAlert(TYPE_ALERT.WARNING, res.message);
+      });
+    } else {
+      topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
+    }
+  }
 
-
-      if (result.value) {
-        this.service.update(id, result.value).subscribe((res: any) => {
-          if (res.status) {
-            console.log(topRightAlert(TYPE_ALERT.SUCCESS, res.message));
-          } else {
-            topRightAlert(TYPE_ALERT.WARNING, res.message);
-          }
-        });
-      } else {
-        console.log('operacion cancelada');
-      }
+  /**
+   * Eliminamos un registro de la BD si se puede
+   * @param id      ID del registro a eliminar
+   * @param result  Resultado del modal para la confirmación de la eliminación
+   */
+  deleteIngrediente(id: number, result: boolean) {
+    if (result) {
+      this.service.delete(id).subscribe((res: any) => {
+        (res.status)
+        ? topRightAlert(TYPE_ALERT.SUCCESS, res.message)
+        : topRightAlert(TYPE_ALERT.WARNING, res.message);
+      });
+    } else {
+      topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
+    }
   }
 
 }

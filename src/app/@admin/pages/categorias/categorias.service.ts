@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ADD_CATEGORIA, MODIFY_CATEGORIA } from '@graphql/operations/mutation/categoria';
+import { ADD_CATEGORIA, DELETE_CATEGORIA, MODIFY_CATEGORIA } from '@graphql/operations/mutation/categoria';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/internal/operators/map';
@@ -26,9 +26,6 @@ export class CategoriasService extends ApiService {
       'addCategoria'
     ).pipe(
       map((result: any) => {
-        console.log('-add-------------------------------------------');
-        console.log(result);
-        // return result.addCategoria
         return result;
       })
     );
@@ -49,12 +46,25 @@ export class CategoriasService extends ApiService {
       'updateCategoria'
     ).pipe(
       map((result: any) => {
-        console.log('-update-------------------------------------------');
         console.log(result);
-        return result.categoria;
+        return result;
       })
     );
   }
 
+  delete(id: number) {
+    return this.set(
+      DELETE_CATEGORIA,
+      {
+        id,
+      },
+      {},
+      'deleteCategoria'
+    ).pipe(
+      map((result: any) => {
+        return result;
+      })
+    );
+  }
 
 }
