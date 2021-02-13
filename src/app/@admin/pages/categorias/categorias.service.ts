@@ -42,11 +42,9 @@ export class CategoriasService extends ApiService {
           foto: ficha.foto,
         },
       },
-      {},
+      { },
       'updateCategoria'
-    ).pipe(
-      map((result: any) => {
-        console.log(result);
+    ).pipe(map((result: any) => {
         return result;
       })
     );

@@ -5,7 +5,7 @@ import { LISTA_USUARIOS_QUERY } from '@graphql/operations/query/usuario';
 import { confirmDetailBasic, infoDetailBasic, usuarioFormBasicDialog } from '@shared/alerts/alerts';
 import { topRightAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
-import { giveMeValue } from '@shared/functions/data-functions';
+import { DateISO2Normal, giveMeValue } from '@shared/functions/data-functions';
 import { DocumentNode } from 'graphql';
 import { UsuariosService } from './usuarios.service';
 
@@ -24,7 +24,7 @@ export class UsuariosComponent implements OnInit {
   bloqueable: boolean;
 
   constructor(private service: UsuariosService) { }
-  
+
   iconosPerfil = {
     USER: '<i class="fab fa-creative-commons-by text-dark fa-2x" title="Usuario"></i>',
     ADMIN: '<i class="fas fa-address-card text-primary fa-2x" title="Administrador"></i>',
@@ -57,9 +57,10 @@ export class UsuariosComponent implements OnInit {
    * Formulario solo lectura con la información del usuario
    * @param usuario  Datos a mostrar en el formulario
    */
-  private infoForm(usuario: any) 
+  private infoForm(usuario: any)
   {
     return `
+    <hr>
     <div class="row">
       <div class="col-7">
             <div class="container p-3 my-3 text-justify">
@@ -67,7 +68,7 @@ export class UsuariosComponent implements OnInit {
                 <div class="Row"><b>Nombre:</b> ${giveMeValue(usuario.nombre)}            </div>            <br>
                 <div class="Row"><b>Apellidos:</b> ${giveMeValue(usuario.apellidos)}      </div>            <br>
                 <div class="Row"><b>Usuario:</b> ${giveMeValue(usuario.usuario)}          </div>            <br>
-                <div class="Row"><b>Fecha de nacimiento:</b> ${giveMeValue(usuario.fecha_nacimiento)}</div> <br>
+                <div class="Row"><b>Fecha de nacimiento:</b> ${DateISO2Normal(giveMeValue(usuario.fecha_nacimiento))}</div> <br>
                 <div class="Row"><b>Nacionalidad:</b> ${giveMeValue(usuario.nacionalidad)}</div>            <br>
             </div>
       </div>
@@ -79,8 +80,8 @@ export class UsuariosComponent implements OnInit {
             <img height="250px" src="/assets/img/usuarios/${giveMeValue(usuario.foto, 'no-avatar.png').toLowerCase()}"/>
         </div>
       </div>
-
     </div>
+    <hr>
         `;
   }
 
@@ -89,19 +90,105 @@ export class UsuariosComponent implements OnInit {
    * @param usuario       Objeto de BD con la información a mostrar
    */
   private inicializeForm(usuario: any) {
+
+    // Logica de los roles
+    const roles = new Array(3);
+    roles[0] = giveMeValue(usuario.perfil, '') === 'USER' ? 'selected' : '';
+    roles[1] = giveMeValue(usuario.perfil, '') === 'COOKER' ? 'selected' : '';
+    roles[2] = giveMeValue(usuario.perfil, '') === 'ADMIN' ? 'selected' : '';
+
+    const nacionalidades = [{idNacionalidad: '001', nombre: 'n001'},
+                            {idNacionalidad: '002', nombre: 'n002'}
+                            ];
+
     return `
-    <input id="email" value="${giveMeValue(usuario.email)}"                       class="mb-1 swal2-input" placeholder="Email" required>
-    <input id="usuario" value="${giveMeValue(usuario.usuario)}"                   class="mb-1 swal2-input" placeholder="Usuario" required>
-    <input type="password" id="pass" value="${giveMeValue(usuario.pass)}"         class="mb-1 swal2-input" placeholder="Contraseña" required>
+    <div class="container">
+    <hr>
+    <table border = 0 width="100%">
 
-    <input id="nombre" value="${giveMeValue(usuario.nombre)}"                     class="mb-1 swal2-input" placeholder="Nombre" required>
-    <input id="apellidos" value="${giveMeValue(usuario.apellidos)}"               class="mb-1 swal2-input" placeholder="Apellidos">
-    <input id="fecha_nacimiento" value="${giveMeValue(usuario.fecha_nacimiento)}" class="mb-1 swal2-input" placeholder="FechaNacimiento" required>
+      <tr>
+        <td>Email:</td>
+        <td>
+          <input type="text" class="mb-1 swal2-input" placeholder="Correo electrónico" name="email"
+                  title="Sólo lo usaremos para notificarte lo que nos pidas, y para hacer login"
+                  id="email" value="${giveMeValue(usuario.email)}" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]{2,}$" required/>
+        </td>
+      </tr>
 
-    <input id="nacionalidad" value="${giveMeValue(usuario.nacionalidad)}"         class="mb-1 swal2-input" placeholder="Nacionalidad">
-    <input id="perfil" value="${giveMeValue(usuario.perfil)}"                     class="mb-1 swal2-input" placeholder="Perfil">
-    <input id="foto" value="${giveMeValue(usuario.foto, 'no-avatar.png')}"        class="mb-1 swal2-input" placeholder="Foto">
-    `;
+     <tr>
+        <td>Usuario:</td>
+        <td>
+          <input  type="text" class="mb-1 swal2-input" placeholder="Nombre de usuario" name="usuario"
+                  title="Servirá para hacer login, y para poder identificar tus recetas"
+                  id="usuario" value="${giveMeValue(usuario.usuario)}" required/>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Contraseña:</td>
+        <td>
+          <input  type="text" class="mb-1 swal2-input" placeholder="Contraseña" name="pass"
+                  id="pass" value="${giveMeValue(usuario.pass)}" />
+        </td>
+      </tr>
+
+      <tr>
+        <td width=150px>Nombre:      </td>
+        <td width="*">
+          <input  type="text" class="mb-1 swal2-input" placeholder="Nombre" name="nombre"
+                  title="Sólo se mostrará en caso de que decidas firmar tus recetas con tu nombre en lugar del con el usuario"
+                  id="nombre" value="${giveMeValue(usuario.nombre)}" required/>
+        </td>
+      </tr>
+
+      <tr>
+      <td>Apellidos:    </td>
+      <td>
+          <input  type="text" class="mb-1 swal2-input" placeholder="Apellidos" name="apellidos"
+                  title="Si tenemos tu apellido y firmas con el nombre, este se añadirá"
+                  id="apellidos" value="${giveMeValue(usuario.apellidos)}"/>
+      </td>
+      </tr>
+
+      <tr>
+      <td>Nacionalidad:</td>
+      <td>
+        <input  type="text" class="mb-1 swal2-input" placeholder="Nacionalidad" name="nacionalidad"
+                title="Sólo lo usaremos para indicar por defecto el pais de origen de las recetas"
+                id="nacionalidad" value="${giveMeValue(usuario.nacionalidad)}"/>
+
+                <! -- HAY QUE ABRIR UN NUEVO SWALDIALOG PREGUNTANDO LA NACIONALIDAD. -->
+    </div>
+      </td>
+      </tr>
+
+      <tr>
+      <td>Perfil:</td>
+      <td>
+          <select id="perfil" class="swal2-input">
+            <option value="USER" ${roles[0]}>Usuario normal</option>
+            <option value="COOKER" ${roles[1]}>Cocinero</option>
+            <option value="ADMIN" ${roles[2]}>Administrador</option>
+          </select>
+      </td>
+      </tr>
+
+      <tr>
+        <td>Cumpleaños:</td>
+        <td>
+          <div>
+            <input  type="text" class="mb-1 swal2-input" placeholder="Fecha de nacimiento" name="nacionalidad"
+                    title="Usamos tu cumpleaños para poder felicitarte y conocer la edad de nuestros cocineros y comensales"
+                    id="fecha_nacimiento" value="${DateISO2Normal(giveMeValue(usuario.fecha_nacimiento))}" required />
+            </div>
+        </td>
+      </tr>
+    </table>
+    </div>
+
+    <hr>
+
+  `;
   }
 
   /**
@@ -109,7 +196,7 @@ export class UsuariosComponent implements OnInit {
    * @param texto   Nombre de la acción que estemos haciendo
    */
   private getTitulo(texto: string) {
-    return `<div>${texto} - <i class="fas fa-sitemap"></i> </div>`;
+    return `<div>${texto} - <i class="fas fa-users"></i> </div>`;
   }
 
   /**
@@ -123,57 +210,24 @@ export class UsuariosComponent implements OnInit {
     switch (accion)
     {
       case 'info':
-        infoDetailBasic(this.getTitulo('Detalle del usuario'), this.infoForm(datos), 800);
+        infoDetailBasic(this.getTitulo('Información de usuario'), this.infoForm(datos), 800);
         break;
       case 'add':
-        this.addUsuario(
-          await usuarioFormBasicDialog('Añadir usuario', this.inicializeForm(datos)
-          )
+        this.addUsuario( await usuarioFormBasicDialog(this.getTitulo('Nuevo usuario'), this.inicializeForm(datos))
         );
         break;
       case 'edit':
-        this.updateUsuario(datos.id,
-          await usuarioFormBasicDialog('Editar usuario', this.inicializeForm(datos)
-          )
-        );
+        this.updateUsuario(datos.id, await usuarioFormBasicDialog(this.getTitulo('Editar usuario'), this.inicializeForm(datos), 600) );
         break;
       case 'del':
-        this.deleteUsuario(datos.id, await confirmDetailBasic(this.getTitulo('Eliminación de usuario'), this.infoForm(datos), 'Eliminar usuario', 'Cancelar', 800));
+        this.deleteUsuario(datos.id, await confirmDetailBasic(this.getTitulo('Eliminar usuario'), this.infoForm(datos), 'Eliminar usuario', 'Cancelar', 800));
         break;
       case 'block':
         const textoAccion = (datos.activo) ? 'Bloquear' : 'Desbloquear';
-        // tslint:disable-next-line: max-line-length
-        this.blockUsuario(datos, await confirmDetailBasic(this.getTitulo('Bloqueo/desbloqueo de usuario'), this.infoForm(datos), textoAccion, 'Cancelar', 800));
+        this.blockUsuario(datos, await confirmDetailBasic(this.getTitulo('Bloquear/desbloquear usuario'), this.infoForm(datos), textoAccion, 'Cancelar', 800));
         break;
     }
   }
-
-  // newUsuario(result: any) {
-  //   if (result.value) {
-  //     console.log('* AÑADIR ====================================================');
-  //     console.log(result);
-
-  //     this.service.add(result.value).subscribe((res: any) => {
-  //       console.log(res);
-
-  //       if (res.status) {
-  //         basicAlert(TYPE_ALERT.SUCCESS, res.message);
-  //       } else {
-  //         console.log(res);
-  //         basicAlert(TYPE_ALERT.WARNING, res.message);
-  //       }
-  //     });
-  //   } else {
-  //     console.log('operacion cancelada');
-  //   }
-  // }
-
-  // editUsuario(result: any) {
-  //   console.log('* EDITAR ====================================================');
-  //   console.log(result.value);
-
-  //   console.log(result);
-  // }
 
   /**
    * Añadimos una nueva categoría

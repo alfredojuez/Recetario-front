@@ -1,3 +1,5 @@
+import { DateNormal2ISO, giveMeValue } from '@shared/functions/data-functions';
+import { info } from 'console';
 import Swal from 'sweetalert2';
 
 const OK_BUTTON = '#28a745';
@@ -28,6 +30,88 @@ export async function simpleInputDialog(title: string, html: string, property: s
       });
 }
 
+export function comboDataFormDialog(title: string, inputOptions: any, width: number = 500)
+{
+  Swal.fire({
+    title,
+    width,
+    html: '<hr>',
+    confirmButtonColor: OK_BUTTON,
+    confirmButtonText: 'Seleccionar',
+    showCancelButton: true,
+    cancelButtonColor: KO_BUTTON,
+    cancelButtonText: 'Cancelar',
+
+    input: 'select',
+    inputOptions: {
+        apples: 'Apples',
+        bananas: 'Bananas',
+        grapes: 'Grapes',
+        oranges: 'Oranges'
+    },
+    inputPlaceholder: 'Seleccione su nacionalidad',
+  });
+}
+
+export function selectFileFormDialog(title: string, inputOptions: any, width: number = 500)
+{
+  Swal.fire({
+    title,
+    width,
+    html: '<hr>',
+    confirmButtonColor: OK_BUTTON,
+    confirmButtonText: 'Seleccionar',
+    showCancelButton: true,
+    cancelButtonColor: KO_BUTTON,
+    cancelButtonText: 'Cancelar',
+
+    input: 'file',
+    inputAttributes: {
+      accept: 'image/*',
+      'aria-label': 'Upload your profile picture'
+    },
+    preConfirm: (file) => {
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          return file;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  });
+}
+
+export function encuestaFormDialog(title: string)
+{
+  Swal.mixin({
+    input: 'text',
+    confirmButtonText: 'Siguiente',
+    showCancelButton: true,
+    cancelButtonText: 'Parar esto ya!',
+    progressSteps: ['1', '2', '3', '4']
+  }).queue([
+    {
+      title: 'Primera pregunta',
+      text: '¿Cual es tu nombre?'
+    },
+    'Question 2',
+    {
+      title: 'Tercera pregunta',
+      text: '¿Cual es tu fecha de nacimiento?',
+    },
+    'Question 3'
+  ]).then((result) => {
+    console.log(result);
+    if (result)
+    {
+      const answers = JSON.parse(JSON.stringify(result)).value;
+      console.log(answers);
+      return answers;
+     }
+  });
+}
+
 export function infoDetailBasic(title: string, html: string, width: number = 500)
 {
   Swal.fire({
@@ -35,7 +119,12 @@ export function infoDetailBasic(title: string, html: string, width: number = 500
     html,
     width,
     confirmButtonText: 'Cerrar información',
-    confirmButtonColor: OK_BUTTON
+    confirmButtonColor: OK_BUTTON,
+    showClass: {
+      popup: 'swal2-show',
+      backdrop: 'swal2-backdrop-show',
+      icon: 'swal2-icon-show'
+    }
   });
 }
 
@@ -63,7 +152,7 @@ export async function confirmDetailBasic( title: string,
     title,
     html,
     // icon: 'warning',
-    width, 
+    width,
     confirmButtonText,
     confirmButtonColor: OK_BUTTON,
     showCancelButton: true,
@@ -125,7 +214,7 @@ export async function nacionalidadFormBasicDialog(title: string, html: string, w
         const nombre = (document.getElementById('nombre') as HTMLInputElement).value;
         if (!nombre) {              Swal.showValidationMessage('El nombre de la nacion es obligatorio');                }
         const icono = (document.getElementById('icono') as HTMLInputElement).value;
-        if (!icono) {               Swal.showValidationMessage('El icono de la bandera de la nacion es obligatorio');    }
+        // if (!icono) {               Swal.showValidationMessage('El icono de la bandera de la nacion es obligatorio');    }
         return {
           idNacionalidad,
           nombre,
@@ -138,31 +227,35 @@ export async function nacionalidadFormBasicDialog(title: string, html: string, w
 export async function usuarioFormBasicDialog(title: string, html: string, width: number = 500) {
   return await swalWithBasicOptions(title, html, width).fire({
     preConfirm: () => {
+      let errores = '';
       // Mostramos valores de error para los campos obligatorios
-      const email =     ( document.getElementById('email') as HTMLInputElement).value;
-      if (!email)       { Swal.showValidationMessage('El correo electrónico es obligatorio');       }
-      const usuario =   ( document.getElementById('usuario') as HTMLInputElement).value;
-      if (!usuario)     { Swal.showValidationMessage('El identificador de usuario es obligatorio'); }
-      const pass =      ( document.getElementById('pass') as HTMLInputElement).value;
-      if (!pass)        { Swal.showValidationMessage('La contraseña es obligatoria');               }
-      const nombre =    ( document.getElementById('nombre') as HTMLInputElement).value;
-      if (!nombre)      { Swal.showValidationMessage('El nombre es obligatorio');                   }
-      const apellidos = ( document.getElementById('apellidos') as HTMLInputElement).value;
+      const email =         ( document.getElementById('email') as HTMLInputElement).value;
+      if (!email)           { errores += 'El correo electrónico es obligatorio<br>';       }
+      const usuario =       ( document.getElementById('usuario') as HTMLInputElement).value;
+      if (!usuario)         { errores += 'El identificador de usuario es obligatorio<br>'; }
+      const pass =          ( document.getElementById('pass') as HTMLInputElement).value;
+      // if (!pass)            { errores += 'La contraseña es obligatoria<br>';               }
+      const nombre =        ( document.getElementById('nombre') as HTMLInputElement).value;
+      if (!nombre)          { errores += 'El nombre es obligatorio<br>';                   }
+      const apellidos =     ( document.getElementById('apellidos') as HTMLInputElement).value;
       const fechaNacimiento = (document.getElementById('fecha_nacimiento') as HTMLInputElement).value;
-      if (!fechaNacimiento){ Swal.showValidationMessage('La fecha de nacimiento es obligatoria');   }
-      const nacionalidad = (document.getElementById('nacionalidad') as HTMLInputElement).value;
-      const perfil =    (document.getElementById('perfil') as HTMLInputElement).value;
-      const foto =      (document.getElementById('foto') as HTMLInputElement).value;
+      if (!fechaNacimiento) { errores += 'La fecha de nacimiento es obligatoria<br>';   }
+      const nacionalidad =  (document.getElementById('nacionalidad') as HTMLInputElement).value;
+      const perfil =        giveMeValue((document.getElementById('perfil') as HTMLInputElement).value, 'USER');
+      // const foto =      (document.getElementById('foto') as HTMLInputElement).value;
+
+      if (errores !== '') {  Swal.showValidationMessage(errores); }
+
       return {
         email,
         nombre,
         apellidos,
         usuario,
         pass,
-        fecha_nacimiento: fechaNacimiento,
+        fecha_nacimiento: DateNormal2ISO(fechaNacimiento),
         nacionalidad,
         perfil,
-        foto,
+        // foto,
       };
     },
   });

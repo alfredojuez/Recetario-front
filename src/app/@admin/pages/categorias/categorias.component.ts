@@ -146,7 +146,6 @@ export class CategoriasComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
-    this.ngOnInit();
   }
 
   /**

@@ -69,12 +69,6 @@
           [ngClass]="{'is-valid': pass.valid, 'is-invalid': pass.invalid}"
           required
         />
-        <!-- <div *ngIf="pass.invalid && (pass.dirty || pass.touched)" class="row pull-right">
-          <small *ngIf="pass.errors.required"
-                 class="help-block m-b-none text-danger">
-                La contraseña es obligatoria.
-          </small>
-        </div> -->
       </div>
       <div>
         <label for="nacionality"><b>Nacionalidad</b></label>
@@ -89,13 +83,14 @@
           required
         />
       </div>
-        <p>
+      <div>
           <label for="birthDate"><b>Fecha de nacimiento</b></label>
           <app-date-picker
             (newDate)="dataAsign($event)"
             title="Usamos tu cumpleaños para poder felicitarte y conocer la edad de nuestros cocineros y comensales"            
           ></app-date-picker>
-
+      </div>
+        <p>
           Registrándose indica que está de acuertdo con
           <a href="#" style="color: dodgerblue">los terminos y condiciones</a>
           de la web.
