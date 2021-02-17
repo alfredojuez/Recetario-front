@@ -21,10 +21,12 @@ export class InicioComponent implements OnInit {
     // });
 
     this.usersApi.getUsuarios().subscribe(result => {
+          console.log('userApi');
           console.log(result);
       });
 
     this.auth.getMe().subscribe(result => {
+      console.log('getMe');
       console.log(result);
   });
   }

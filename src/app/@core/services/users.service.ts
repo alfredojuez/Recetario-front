@@ -31,10 +31,10 @@ export class UsersService extends ApiService {
       {
           DatosUsuario,
           include: false,
-      })
+      }, {}, 'addUsuario')
       .pipe(
         map((result: any) => {
-          return result.register;
+          return result.usuario;
         })
       );
   }
