@@ -1,3 +1,4 @@
+import { EMAIL_PATTERN } from '@core/constant/regex';
 import { DateNormal2ISO, giveMeValue } from '@shared/functions/data-functions';
 import { info } from 'console';
 import Swal from 'sweetalert2';
@@ -231,6 +232,7 @@ export async function usuarioFormBasicDialog(title: string, html: string, width:
       // Mostramos valores de error para los campos obligatorios
       const email =         ( document.getElementById('email') as HTMLInputElement).value;
       if (!email)           { errores += 'El correo electrónico es obligatorio<br>';       }
+      if (!EMAIL_PATTERN.test(email)) {errores += 'Formato del email incorrecto<br>'}
       const usuario =       ( document.getElementById('usuario') as HTMLInputElement).value;
       if (!usuario)         { errores += 'El identificador de usuario es obligatorio<br>'; }
       const pass =          ( document.getElementById('pass') as HTMLInputElement).value;
