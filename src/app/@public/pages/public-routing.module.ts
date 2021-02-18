@@ -44,6 +44,13 @@ const routes: Routes = [
             (m) => m.RegistroModule
           ),
       },
+      {
+        path: 'active/:token',
+        loadChildren: () =>
+          import('./forms/active/active.module').then(
+            (m) => m.ActiveModule
+          ),
+      },
     ]
   }
 ];

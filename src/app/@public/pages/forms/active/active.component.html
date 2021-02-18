@@ -1,0 +1,72 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg">      </div>
+        <div class="col-lg-6">
+            <form (ngSubmit)="add()" #activacionForm="ngForm">
+                <div>Indique su fecha de cumpleaños.</div>
+                <div>
+                <label for="birthDate"><b>Fecha de nacimiento</b></label>
+                <app-date-picker
+                  (newDate)="dataAsign($event)"
+                  title="Usamos tu cumpleaños para poder felicitarte y conocer la edad de nuestros cocineros y comensales"            
+                ></app-date-picker>
+                
+                </div>
+                <div>
+                    <label for="pass"><b>Contraseña</b></label>
+                    <input
+                      type="password"
+                      placeholder="Contraseña"
+                      name="pass"
+                      title="Procura usar Mayúsculas, minúsculas, números y algún símbolo"
+                      #pass="ngModel"
+                      [(ngModel)]="values.pass"
+                      class="form-control"
+                      [ngClass]="{'is-valid': pass.valid, 'is-invalid': pass.invalid}"
+                      required
+                    />
+                </div>
+
+                <div *ngIf="values.pass.invalid && (values.pass.dirty || values.pass.touched)">
+                    <small *ngIf="pass.errors.required"
+                        class="help-block m-b-none text-danger" style="float:right">
+                        La contraseña es obligatoria.
+                    </small>
+                </div>
+                
+
+                
+                <div>
+                    <label for="pass2"><b>Repita la contraseña</b></label>
+                    <input
+                      type="password"
+                      placeholder="Contraseña"
+                      name="pass2"
+                      title="Procura usar Mayúsculas, minúsculas, números y algún símbolo"
+                      #pass2="ngModel"
+                      [(ngModel)]="values.pass2"
+                      class="form-control"
+                      [ngClass]="{'is-valid': values.pass === values.pass2, 'is-invalid': values.pass !== values.pass2}"
+                      required
+                    />
+                </div>
+                <div *ngIf="values.pass!==values.pass2">
+                    <small *ngIf="pass2.errors"
+                        class="help-block m-b-none text-danger" style="float:right">
+                        Las contraseñas no coinciden.
+                    </small>
+                </div>
+
+
+<br>
+                <div class="row">
+                    <div class="col-lg">
+                        <button type="submit" [disabled]="!activacionForm.valid" class="signup-btn">Activar usuario</button>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+        <div class="col-lg">      </div>
+    </div>
+</div>
