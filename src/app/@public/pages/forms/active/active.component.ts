@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UsersService } from '@core/services/users.service';
+import { basicAlert } from '@shared/alerts/toasts';
+import { TYPE_ALERT } from '@shared/alerts/values.config';
 
 @Component({
   selector: 'app-active',
@@ -16,13 +19,14 @@ export class ActiveComponent implements OnInit
     fecha_nacimiento: ''
   };
 
-  constructor(private route: ActivatedRoute) {
-    this.route.params.subscribe(params => {
-      //  console.log(params);
-      this.token = params.token;
-      console.log(this.token);
-    });
-  }
+    constructor(private URLroute: ActivatedRoute,
+                private userService: UsersService,
+                private router: Router)
+    {
+      this.URLroute.params.subscribe(params => {
+        this.token = params.token;
+      });
+    }
 
   ngOnInit(): void {
     const data = new Date();
@@ -45,7 +49,17 @@ export class ActiveComponent implements OnInit
 
   add()
   {
-
+    this.userService.activate(this.token, this.values.pass).subscribe(
+      result => {
+        if (result)
+        {
+          basicAlert(TYPE_ALERT.SUCCESS, 'Acceso concedido', result.message); // informacion de login correcto.
+          this.router.navigate(['/login']);
+        } else {
+          basicAlert(TYPE_ALERT.ERROR, 'Acceso denegado', result.message); // login incorrecto.
+        }
+      }
+    );
   }
 
 }

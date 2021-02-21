@@ -3,7 +3,7 @@ import { IResultData } from '@core/interfaces/result-data.interface';
 import { ITableColumns } from '@core/interfaces/table-columns.interface';
 import { LISTA_USUARIOS_QUERY } from '@graphql/operations/query/usuario';
 import { confirmDetailBasic, infoDetailBasic, usuarioFormBasicDialog } from '@shared/alerts/alerts';
-import { topRightAlert } from '@shared/alerts/toasts';
+import { basicAlert, topRightAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
 import { DateISO2Normal, giveMeValue } from '@shared/functions/data-functions';
 import { DocumentNode } from 'graphql';
@@ -230,7 +230,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   /**
-   * Añadimos una nueva categoría
+   * Añadimos un nuevo usuario
    * @param result  Respuesta dada en el modal de solicitud de datos.
    */
   addUsuario(result: any) {
@@ -238,9 +238,26 @@ export class UsuariosComponent implements OnInit {
         // llamamos al sercicio de creacion del registro
         this.service.add(result.value).subscribe((res: any) =>
         {
-          (res.status)
-            ? topRightAlert(TYPE_ALERT.SUCCESS, res.message)
-            : topRightAlert(TYPE_ALERT.WARNING, res.message);
+          if (res.status)
+           {
+              topRightAlert(TYPE_ALERT.SUCCESS, res.message);
+
+              console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+              console.log(res);
+
+              this.service.sendEmailActive(res.usuario.id, res.usuario.usuario, res.usuario.email)
+                  .subscribe((resEmail) => {
+                    resEmail.status
+                      ? basicAlert(TYPE_ALERT.SUCCESS, resEmail.message)
+                      : basicAlert(TYPE_ALERT.WARNING, resEmail.message);
+                  });
+
+
+           }
+           else
+           {
+             topRightAlert(TYPE_ALERT.WARNING, res.message);
+           }
         });
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');

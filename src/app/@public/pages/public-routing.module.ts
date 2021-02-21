@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ChangePasswordModule } from './forms/change-password/change-password.module';
 import { PublicComponent } from './public.component';
 
 
@@ -49,6 +50,20 @@ const routes: Routes = [
         loadChildren: () =>
           import('./forms/active/active.module').then(
             (m) => m.ActiveModule
+          ),
+      },
+      {
+        path: 'forgot',
+        loadChildren: () =>
+          import('./forms/forgot/forgot.module').then(
+            (m) => m.ForgotModule
+          ),
+      },
+      {
+        path: 'reset/:token',
+        loadChildren: () =>
+          import('./forms/change-password/change-password.module').then(
+            (m) => m.ChangePasswordModule
           ),
       },
     ]

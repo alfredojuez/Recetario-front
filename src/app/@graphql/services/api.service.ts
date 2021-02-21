@@ -42,7 +42,16 @@ export class ApiService {
   protected set(query: DocumentNode, variables: object = {}, context: object = {}, key: string = '')
   {
     // inyectamos el token en todas las peticiones
-    context =    { headers: new HttpHeaders({ authorization: (this.getSession() as ISession).token }), };
+    // salvo que ya nos venga el contexto (como es el caso de los accesos por link)
+
+
+    console.log('contexto ');
+    console.log(Object(context).headers);
+
+
+    context = (Object(context).headers === undefined )
+    ? { headers: new HttpHeaders({ authorization: (this.getSession() as ISession).token }), }
+    : context;
 
     return this.apollo.mutate({
       mutation: query,

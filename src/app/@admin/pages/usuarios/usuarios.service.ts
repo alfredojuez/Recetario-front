@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ADD_USUARIO, BLOCK_USER, DELETE_USUARIO, MODIFY_USUARIO, UNBLOCK_USER } from '@graphql/operations/mutation/usuario';
+import { ACTIVATE_USUARIO_MAIL, ADD_USUARIO, BLOCK_USUARIO, DELETE_USUARIO, MODIFY_USUARIO, UNBLOCK_USUARIO } from '@graphql/operations/mutation/usuario';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/internal/operators/map';
@@ -65,7 +65,7 @@ export class UsuariosService extends ApiService {
 
   block(idUsuario: number, ficha: any) {
     const estadoActual = ficha.activo;
-    const ACCION = estadoActual ? BLOCK_USER : UNBLOCK_USER;
+    const ACCION = estadoActual ? BLOCK_USUARIO : UNBLOCK_USUARIO;
     const ELEMENTO = estadoActual ? 'blockUsuario' : 'unblockUsuario';
 
     return this.set(
@@ -94,6 +94,23 @@ export class UsuariosService extends ApiService {
         return result;
       })
     );
+  }
+
+  sendEmailActive(id: string, usuario: string, email: string) {
+
+    console.log(`NOS ESTA LLEGANDO: ${id} - ${usuario} - ${email}`)
+    return this.set(
+      ACTIVATE_USUARIO_MAIL,
+      {
+        idUsuario: id,
+        usuario,
+        email
+      },
+      {},
+      'activateUserEmail'
+    ).pipe(map((result: any) => {
+      return result;
+    }));
   }
 
 }
