@@ -1,3 +1,4 @@
+import { UsuariosService } from '@admin/pages/usuarios/usuarios.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EMAIL_PATTERN } from '@core/constant/regex';
@@ -24,7 +25,7 @@ export class RegistroComponent implements OnInit {
     fecha_nacimiento: '',
   };
 
-  constructor(private api: UsersService, private router: Router) {}
+  constructor(private api: UsersService, private service: UsuariosService, private router: Router) {}
 
   ngOnInit(): void {
       const data = new Date();
@@ -53,7 +54,14 @@ export class RegistroComponent implements OnInit {
 
     if (result.status)
     {
-        this.router.navigate(['/login']);
+      this.service.sendEmailActive(result.usuario.id,result.usuario.usuario, result.usuario.email)
+          .subscribe((resEmail) => {
+            resEmail.status
+              ? basicAlert(TYPE_ALERT.SUCCESS, resEmail.message)
+              : basicAlert(TYPE_ALERT.WARNING, resEmail.message);
+          });
+
+      this.router.navigate(['/login']);
     }
 
     });

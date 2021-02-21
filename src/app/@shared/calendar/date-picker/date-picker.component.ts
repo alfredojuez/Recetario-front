@@ -7,7 +7,6 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./date-picker.component.scss']
 })
 export class DatePickerComponent implements OnInit {
-
   HOY = {
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1,
@@ -34,6 +33,7 @@ export class DatePickerComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
   selectDateChange()
   {
     console.log(this.model);
