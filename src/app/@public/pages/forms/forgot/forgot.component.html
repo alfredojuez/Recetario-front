@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="row">
+      <div class="col-lg"></div>
+      <div class="col-lg-6">
+              <form (ngSubmit)="reset()" #formularioReset="ngForm">
+                <h1>Reseteo de contraseña</h1>
+                <p>
+                  Te enviaremos un enlace a tu correo electrónico para resetear tu
+                  contraseña y cambiarla
+                </p>
+                <hr />
+                    <label for="email"><b>Correo electrónico:</b></label>
+                    <input
+                      type="email"
+                      #email="ngModel"
+                      [(ngModel)]="emailValue"
+                      placeholder="Introduzca la correo electrónico"
+                      name="email"
+                      class="form-control"
+                      required
+                      [ngClass]="{
+                        'is-valid': !email.invalid,
+                        'is-invalid': email.invalid
+                      }"
+                      [pattern]="emailPattern"
+                    />
+
+                <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                  <small *ngIf="email.errors.required" class="help-block m-b-none text-danger" style="float:right">
+                            Introduzca un correo electrónico válido por favor
+                  </small>
+                  <small *ngIf="email.errors && email.errors.pattern" class="help-block m-b-none text-danger" style="float:right">
+                            Formato incorrecto
+                  </small>
+                </div>
+
+<br>
+
+                <div class="row">
+                  <div class="col-lg">
+                    <button
+                      type="submit" 
+                      [disabled]="!formularioReset.valid"
+                      class="signup-btn"                  >
+                      Enviar para resetear
+                    </button>
+                  </div>
+                </div>
+              </form>
+      </div>
+      <div class="col-lg"></div>
+    </div>
+  </div>
