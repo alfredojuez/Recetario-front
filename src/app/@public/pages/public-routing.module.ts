@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ChangePasswordModule } from './forms/change-password/change-password.module';
 import { PublicComponent } from './public.component';
 
 
