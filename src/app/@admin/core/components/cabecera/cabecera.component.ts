@@ -7,23 +7,23 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class CabeceraComponent implements OnInit {
 
-  //para ocultar el menu con la hamburguesa
+  // para ocultar el menu con la hamburguesa
   puedoMostrarMenu = true;
   @Output() eventoMostrarMenu = new EventEmitter<boolean>();
   mostrarMenu()
   {
     if (this.puedoMostrarMenu === undefined)
     {
-      //si no lo tenemos, lo inicializamos a true
-      this.puedoMostrarMenu =true;
+      // si no lo tenemos, lo inicializamos a true
+      this.puedoMostrarMenu = true;
     }
-    //si se pide cambio de estado, se niega el estado actual.
+    // si se pide cambio de estado, se niega el estado actual.
     this.puedoMostrarMenu = !this.puedoMostrarMenu ;
-    console.log("Mostrar menu: " + this.puedoMostrarMenu)
-    //emitimos el valor obtenido
+    console.log('Mostrar menu: ' + this.puedoMostrarMenu);
+    // emitimos el valor obtenido
     this.eventoMostrarMenu.emit(this.puedoMostrarMenu);
   }
-  //fin ocultar
+  // fin ocultar
 
 
   constructor() { }
