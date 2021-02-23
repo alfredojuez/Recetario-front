@@ -64,7 +64,7 @@ export class AdminGuard implements CanActivate {
     return respuesta;
   }
 
-  redirect2Login(destino = '/', resetSesion = false)
+  public redirect2Login(destino = '/', resetSesion = false)
   {
     if (resetSesion)
     {

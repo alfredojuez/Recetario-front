@@ -20,9 +20,9 @@ export const LOGIN_QUERY = gql`
 `;
 
 export const LISTA_USUARIOS_QUERY = gql`
-    query ListaUsuarios ($include: Boolean!, $page: Int, $itemsPage: Int)
+    query ListaUsuarios ($include: Boolean!, $active: UserStatus, $page: Int, $itemsPage: Int)
     {
-      ListadoUsuariosCompleto(page: $page, itemsPage: $itemsPage)
+      ListadoUsuariosCompleto(page: $page, itemsPage: $itemsPage, active: $active)
       {
         info
         {

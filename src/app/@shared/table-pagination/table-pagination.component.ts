@@ -5,6 +5,7 @@ import { DocumentNode } from 'graphql';
 import { map } from 'rxjs/internal/operators/map';
 import { TablePaginationService } from './table-pagination.service';
 import { ITableColumns } from '@core/interfaces/table-columns.interface';
+import { USER_STATUS_FILTER } from '@core/constant/filters';
 
 @Component({
   selector: 'app-table-pagination',
@@ -17,6 +18,7 @@ export class TablePaginationComponent implements OnInit {
   @Input() context: object;
   @Input() itemsPage = 15;
   @Input() resultData: IResultData;
+  @Input() filterActiveValues: USER_STATUS_FILTER = USER_STATUS_FILTER.TODOS;
   @Input() include = true;
   @Input() tableColumns: Array<ITableColumns> = undefined;
   @Input() bloqueable = false;
@@ -32,6 +34,9 @@ export class TablePaginationComponent implements OnInit {
 
   ngOnInit(): void
   {
+
+    console.log(`filtr: ${this.filterActiveValues}`);
+
     if ((this.query === undefined))          {      throw new Error('Query is undefined');        }
     if ((this.resultData === undefined))     {      throw new Error('ResultData is undefined');   }
     if ((this.tableColumns === undefined))   {      throw new Error('tableColumns is undefined');   }
@@ -54,6 +59,7 @@ export class TablePaginationComponent implements OnInit {
       page:       this.infoPage.page,
       itemsPage:  this.infoPage.itemsPage,
       include:    this.include,
+      active:     this.filterActiveValues,
     };
 
     this.data$ = this.service.getCollectionData(this.query,  variables, {}, ).pipe(
