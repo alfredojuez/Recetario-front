@@ -1,6 +1,22 @@
 <button class="btn btn-success float-right mb-2"  (click)="manageAction('add', '')">
   <i class="fas fa-plus-circle"></i> Añadir registro
 </button>
+
+
+<select
+class="custom-select float-right mb-2 mr-3"
+style="width: auto"
+[(ngModel)]="filterActiveValues"
+(ngModelChange)="loadData()"
+>
+<option [ngValue]="'TODOS'">TODOS</option>
+<option [ngValue]="'ACTIVOS'">ACTIVOS</option>
+<option [ngValue]="'INACTIVOS'">INACTIVOS</option>
+</select>
+
+
+
+
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
@@ -49,7 +65,19 @@
         <td class="fa-pull-right">
             <button (click)="manageAction('info',  data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Información"><i class="fas fa-info"></i></button>
             <button (click)="manageAction('edit',  data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Editar"><i class="fas fa-edit"></i></button>
-            <button (click)="manageAction('block', data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Bloquear/desbloquear" *ngIf="bloqueable"><i class="fas fa-key"></i></button>
+
+            
+            
+            
+            <button (click)="manageAction('block', data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Bloquear" *ngIf="(bloqueable && data['activo']!=false); else unblock"><i class="fas fa-lock"></i></button>
+            
+            <ng-template #unblock>
+              <button (click)="manageAction('block', data)" type="button" style="width:40px" class="btn btn-warning mr-1" title="Desbloquear" *ngIf="bloqueable"><i class="fas fa-lock-open"></i></button>
+            </ng-template>
+
+            
+            
+            
             <button (click)="manageAction('del',   data)" type="button" style="width:40px" class="btn btn-danger" title="Eliminar"><i class="far fa-trash-alt"></i></button>
         </td>
       </tr>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { USER_STATUS_FILTER } from '@core/constant/filters';
 import { IResultData } from '@core/interfaces/result-data.interface';
 import { ITableColumns } from '@core/interfaces/table-columns.interface';
 import { LISTA_USUARIOS_QUERY } from '@graphql/operations/query/usuario';
@@ -8,6 +9,8 @@ import { TYPE_ALERT } from '@shared/alerts/values.config';
 import { DateISO2Normal, giveMeValue } from '@shared/functions/data-functions';
 import { DocumentNode } from 'graphql';
 import { UsuariosService } from './usuarios.service';
+import { AdminGuard } from '@core/guards/admin.guard';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuarios',
@@ -19,11 +22,12 @@ export class UsuariosComponent implements OnInit {
   context: object;
   itemsPage: number;
   resultData: IResultData;
+  filterActiveValues = USER_STATUS_FILTER.TODOS;
   include: boolean;
   columns: Array<ITableColumns>;
   bloqueable: boolean;
 
-  constructor(private service: UsuariosService) { }
+  constructor(private service: UsuariosService, private router: Router) { }
 
   iconosPerfil = {
     USER: '<i class="fab fa-creative-commons-by text-dark fa-2x" title="Usuario"></i>',
@@ -240,11 +244,7 @@ export class UsuariosComponent implements OnInit {
         {
           if (res.status)
            {
-              topRightAlert(TYPE_ALERT.SUCCESS, res.message);
-
-              console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-              console.log(res);
-
+              // topRightAlert(TYPE_ALERT.SUCCESS, res.message);
               this.service.sendEmailActive(res.usuario.id, res.usuario.usuario, res.usuario.email)
                   .subscribe((resEmail) => {
                     resEmail.status
@@ -252,7 +252,7 @@ export class UsuariosComponent implements OnInit {
                       : basicAlert(TYPE_ALERT.WARNING, resEmail.message);
                   });
 
-
+              this.router.navigate(['/login']);
            }
            else
            {
