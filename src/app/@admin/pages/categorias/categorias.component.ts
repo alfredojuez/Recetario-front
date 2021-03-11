@@ -12,6 +12,7 @@ import {
 import { CategoriasService } from './categorias.service';
 import { topRightAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'app-categorias',
@@ -19,6 +20,8 @@ import { TYPE_ALERT } from '@shared/alerts/values.config';
   styleUrls: ['./categorias.component.scss'],
 })
 export class CategoriasComponent implements OnInit {
+  private refreshData = new Subject<boolean>();
+  public refreshData$ = this.refreshData.asObservable();
   query: DocumentNode = LISTA_CATEGORIAS_QUERY;
   context: object;
   itemsPage: number;
@@ -129,6 +132,7 @@ export class CategoriasComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
   }
 
   /**
@@ -146,6 +150,8 @@ export class CategoriasComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
+
   }
 
   /**
@@ -163,6 +169,9 @@ export class CategoriasComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
   }
+
+
 
 }

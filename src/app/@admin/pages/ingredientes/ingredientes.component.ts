@@ -8,6 +8,7 @@ import { IngredientesService } from './ingredientes.service';
 import { topRightAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
 import { giveMeValue } from '@shared/functions/data-functions';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'app-ingredientes',
@@ -15,6 +16,9 @@ import { giveMeValue } from '@shared/functions/data-functions';
   styleUrls: ['./ingredientes.component.scss']
 })
 export class IngredientesComponent implements OnInit {
+  private refreshData = new Subject<boolean>();
+  public refreshData$ = this.refreshData.asObservable();
+
   query: DocumentNode = LISTA_INGREDIENTES_QUERY;
   context: object;
   itemsPage: number;
@@ -135,6 +139,7 @@ export class IngredientesComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
   }
 
   /**
@@ -152,6 +157,7 @@ export class IngredientesComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
   }
 
   /**
@@ -169,6 +175,7 @@ export class IngredientesComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
   }
 
 }

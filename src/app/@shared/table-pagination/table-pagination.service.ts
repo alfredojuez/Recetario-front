@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@graphql/services/api.service';
 import { Apollo } from 'apollo-angular';
 import { DocumentNode } from 'graphql';
-// import { ConsoleReporter } from 'jasmine';
 
 @Injectable({
   providedIn: 'root'

@@ -11,6 +11,7 @@ import { DocumentNode } from 'graphql';
 import { UsuariosService } from './usuarios.service';
 import { AdminGuard } from '@core/guards/admin.guard';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'app-usuarios',
@@ -18,6 +19,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./usuarios.component.scss']
 })
 export class UsuariosComponent implements OnInit {
+  private refreshData = new Subject<boolean>();
+  public refreshData$ = this.refreshData.asObservable();
+
   query: DocumentNode = LISTA_USUARIOS_QUERY;
   context: object;
   itemsPage: number;
@@ -252,7 +256,7 @@ export class UsuariosComponent implements OnInit {
                       : basicAlert(TYPE_ALERT.WARNING, resEmail.message);
                   });
 
-              this.router.navigate(['/login']);
+              // this.router.navigate(['/login']);
            }
            else
            {
@@ -262,6 +266,7 @@ export class UsuariosComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
   }
 
   /**
@@ -279,6 +284,7 @@ export class UsuariosComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
   }
 
   /**
@@ -296,6 +302,7 @@ export class UsuariosComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operacion cancelada');
     }
+    this.refreshData.next(true);
   }
 
   /**
@@ -316,6 +323,7 @@ export class UsuariosComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
   }
 
 }

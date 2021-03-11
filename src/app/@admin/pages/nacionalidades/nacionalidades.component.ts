@@ -8,6 +8,7 @@ import { NacionalidadesService } from './nacionalidades.service';
 import { topRightAlert } from '@shared/alerts/toasts';
 import { TYPE_ALERT } from '@shared/alerts/values.config';
 import { giveMeValue } from '@shared/functions/data-functions';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'app-nacionalidades',
@@ -15,6 +16,9 @@ import { giveMeValue } from '@shared/functions/data-functions';
   styleUrls: ['./nacionalidades.component.scss']
 })
 export class NacionalidadesComponent implements OnInit {
+  private refreshData = new Subject<boolean>();
+  public refreshData$ = this.refreshData.asObservable();
+
   query: DocumentNode = LISTA_NACIONALIDADES_QUERY;
   context: object;
   itemsPage: number;
@@ -131,6 +135,7 @@ export class NacionalidadesComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
   }
 
   /**
@@ -148,6 +153,7 @@ export class NacionalidadesComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
   }
 
   /**
@@ -165,6 +171,7 @@ export class NacionalidadesComponent implements OnInit {
     } else {
       topRightAlert(TYPE_ALERT.INFO, 'Operación cancelada');
     }
+    this.refreshData.next(true);
   }
 
 }

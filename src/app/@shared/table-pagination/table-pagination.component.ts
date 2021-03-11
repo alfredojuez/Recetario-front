@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { IInfoPage, IResultData } from '@core/interfaces/result-data.interface';
 import { Observable } from 'rxjs/internal/Observable';
 import { DocumentNode } from 'graphql';
@@ -6,13 +6,14 @@ import { map } from 'rxjs/internal/operators/map';
 import { TablePaginationService } from './table-pagination.service';
 import { ITableColumns } from '@core/interfaces/table-columns.interface';
 import { USER_STATUS_FILTER } from '@core/constant/filters';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-table-pagination',
   templateUrl: './table-pagination.component.html',
   styleUrls: ['./table-pagination.component.scss']
 })
-export class TablePaginationComponent implements OnInit {
+export class TablePaginationComponent implements OnInit, OnDestroy  {
 
   @Input() query: DocumentNode; // = LISTA_USUARIOS_QUERY;
   @Input() context: object;
@@ -22,12 +23,14 @@ export class TablePaginationComponent implements OnInit {
   @Input() include = true;
   @Input() tableColumns: Array<ITableColumns> = undefined;
   @Input() bloqueable = false;
+  @Input() newData$: Observable<boolean>;
 
   @Output() manageItem = new EventEmitter<any>();
 
   infoPage: IInfoPage;
   // El símbolo del $ indica que es un observable
   data$: Observable<any>;
+  newDataSubscription$: Subscription;
   // Any => asi vale para categorias, ingredientes...
 
   constructor(private service: TablePaginationService) { }
@@ -49,6 +52,13 @@ export class TablePaginationComponent implements OnInit {
       totalPages: 1,
     };
     this.loadData();
+    this.newDataSubscription$ = this.newData$.subscribe(_ => this.loadData());
+  }
+
+  ngOnDestroy(): void {
+    if (this.newDataSubscription$) {
+      this.newDataSubscription$.unsubscribe();
+    }
   }
 
   loadData()
@@ -72,10 +82,10 @@ export class TablePaginationComponent implements OnInit {
     ));
   }
 
-  refreshData()
-  {
-    this.loadData();
-  }
+  // refreshData()
+  // {
+  //   this.loadData();
+  // }
 
   pageChange()
   {

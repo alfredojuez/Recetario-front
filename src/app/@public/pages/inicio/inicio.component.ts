@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { IReceta } from '@core/interfaces/recetas.interface';
 import { AuthService } from '@core/services/auth.service';
 import { UsersService } from '@core/services/users.service';
-// import { ApiService } from 'src/app/@graphql/services/api.service';
+import ListaJSONRecetas from '@datos/recetas.json';
+
 
 @Component({
   selector: 'app-inicio',
@@ -10,25 +12,16 @@ import { UsersService } from '@core/services/users.service';
 })
 export class InicioComponent implements OnInit {
 
+  productList;
   // private auth: AuthService ->  para hacer uso del API.LOGIN
   constructor(private usersApi: UsersService, private auth: AuthService) { }
   // constructor(private auth: AuthService) { }
+  ListaRecetas: any;
 
-  ngOnInit(): void {
-    // this.auth.login('alfredojuez',
-    //                'alfredojuez').subscribe(result => {
-    //   console.log(result);
-    // });
-
-    this.usersApi.getUsuarios().subscribe(result => {
-          console.log('userApi');
-          console.log(result);
-      });
-
-    this.auth.getMe().subscribe(result => {
-      console.log('getMe');
-      console.log(result);
-  });
+  ngOnInit(): void
+  {
+    this.ListaRecetas = ListaJSONRecetas;
+    console.log('ListaJSONRecetas: ', ListaJSONRecetas);
   }
 
 }
