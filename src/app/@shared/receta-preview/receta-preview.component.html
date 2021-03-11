@@ -1,0 +1,73 @@
+<div class="product-grid ml-4">
+  <div class="product-content">
+    <div style="width: 300px">
+      <h2>{{ receta.titulo }}</h2>
+      <div class="container">
+        <div class="row">
+          [
+          <div *ngFor="let cats of receta.categorias" class="ml-2">
+            <div>
+              <a href="/buscador?cat={{ cats.nombre }}">{{ cats.nombre }}</a>
+            </div>
+          </div>
+          ]
+        </div>
+      </div>
+      <br />
+      <div class="container">
+        <div class="row">
+          {{ receta.descripcion }}
+        </div>
+      </div>
+
+      <div class="fa-pull-right mt-2">
+        Autor: &nbsp;<a href="/buscador?author={{ receta.usuario_alta }}">{{
+          receta.usuario_alta
+        }}</a>
+      </div>
+      <br><br>
+      <div>
+        PUNTUACION: X X X · ·
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <ul class="ribbon">
+      <li>
+        <a class="item-button-options" 
+           (click)="ver(receta)"
+           data-tip="Ver receta"
+          ><i class="far fa-eye"></i
+        ></a>
+      </li>
+      <li>
+        <a class="item-button-options" 
+           (click)="sendMail(receta)"
+           data-tip="Enviar por mail"
+          ><i class="far fa-envelope-open"></i
+        ></a>
+      </li>
+      <li>
+        <a class="item-button-options"
+           (click)="copyLink(receta)"
+           data-tip="Copiar enlace a la receta"
+          ><i class="fas fa-link"></i
+        ></a>
+      </li>
+      <li>
+        <a class="item-button-options"
+           (click)="AddtoCart(receta)"
+           data-tip="Añadir al menú del día"
+          ><i class="fas fa-file-alt"></i
+        ></a>
+      </li>
+      <li>
+        <a class="item-button-options" 
+           (click)="favorite(receta)"
+           data-tip="Añadir a favoritos"
+          ><i class="far fa-heart"></i
+        ></a>
+      </li>
+    </ul>
+  </div>
+</div>

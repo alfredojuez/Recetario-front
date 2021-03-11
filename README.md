@@ -1,4 +1,4 @@
-# Recetario versión 0.1 beta
+# recetario versión 0.1 beta
 
 Este proyecto se generó con [Angular CLI](https://github.com/angular/angular-cli) version 9.1.13.
 
