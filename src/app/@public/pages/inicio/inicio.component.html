@@ -1,10 +1,2 @@
-
-    <div class="row">
-        <div *ngFor="let receta of ListaRecetas">
-            <app-receta-preview 
-                [receta] = "receta"
-            ></app-receta-preview>
-
-        </div>
-
-    </div>
+<app-listado-recetas *ngIf="ListadoTOP" [ListaRecetas]="ListadoTOP" [titulo]="'Recomendaciones del CHEF'" [esTop]=true> </app-listado-recetas>
+<app-listado-recetas *ngIf="ListadoGeneral" [ListaRecetas]="ListadoGeneral" [titulo]="'Ultimas Recetas'" [esTop]=false> </app-listado-recetas>

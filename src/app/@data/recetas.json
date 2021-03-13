@@ -3,7 +3,7 @@
         "id": "1",
         "titulo": "receta 1",
         "descripcion": "descripción de la receta",
-        "foto": "",
+        "foto": "fondo001.jpg",
         "ingredientes": [
               {"nombre":"ingrediente 1"},
               {"nombre":"ingrediente 2"},
@@ -22,8 +22,8 @@
       {
           "id": "2",
           "titulo": "receta 2",
-          "descripcion": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
-          "foto": "",
+          "descripcion": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy larised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum",
+          "foto": "fondo005.jpg",
           "ingredientes": [
                 {"nombre":"ingrediente 1"},
                 {"nombre":"ingrediente 2"},
@@ -43,7 +43,7 @@
         "id": "1",
         "titulo": "receta 3",
         "descripcion": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-        "foto": "",
+        "foto": "fondo003.jpg",
         "ingredientes": [
               {"nombre":"ingrediente 1"},
               {"nombre":"ingrediente 2"},
@@ -63,7 +63,7 @@
           "id": "2",
           "titulo": "receta 4",
           "descripcion": "took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-          "foto": "",
+          "foto": "fondo004.jpg",
           "ingredientes": [
                 {"nombre":"ingrediente 1"},
                 {"nombre":"ingrediente 2"},
@@ -83,7 +83,7 @@
         "id": "1",
         "titulo": "receta 5",
         "descripcion": "descripción de la receta",
-        "foto": "",
+        "foto": "fondo008.jpg",
         "ingredientes": [
               {"nombre":"ingrediente 1"},
               {"nombre":"ingrediente 3"}
@@ -100,7 +100,7 @@
           "id": "6",
           "titulo": "receta 6 al estilo newcook",
           "descripcion": "It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem",
-          "foto": "",
+          "foto": "fondo007.jpg",
           "ingredientes": [
                 {"nombre":"ingrediente 1"},
                 {"nombre":"ingrediente 2"},
@@ -120,7 +120,7 @@
         "id": "7",
         "titulo": "receta 7",
         "descripcion": "descripción de la receta un poco más larga que el resto pero no tanto como la del lorem",
-        "foto": "",
+        "foto": "fondo006.jpg",
         "ingredientes": [
               {"nombre":"ingrediente 1"},
               {"nombre":"ingrediente 2"},

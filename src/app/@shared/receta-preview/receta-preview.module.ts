@@ -9,9 +9,7 @@ import { RecetaPreviewComponent } from './receta-preview.component';
   imports: [
     CommonModule
   ],
-  exports: [
-    RecetaPreviewComponent
-  ]
+  exports: [RecetaPreviewComponent]
 })
 
 export class RecetaPreviewModule { }

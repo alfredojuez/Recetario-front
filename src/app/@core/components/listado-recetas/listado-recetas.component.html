@@ -1,0 +1,37 @@
+<div *ngIf="esTop == true">
+  <div *ngIf="esTop">
+    <div class="container">
+      <hr />
+      <h4>{{ titulo }}</h4>
+      <hr />
+      <div class="row">
+        <div *ngFor="let receta of ListaRecetas">
+          <app-receta-preview
+            [receta]="receta"
+            (showItem)="gotoItem($event)"
+            (add2cart)="addToCart($event)"
+            (add2Favorite)="addToFavorite($event)"
+          ></app-receta-preview>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="esTop == false">
+  <div class="enBloque">
+    <hr />
+    <h4>{{ titulo }}</h4>
+    <hr />
+    <div class="row">
+      <div *ngFor="let receta of ListaRecetas">
+        <app-receta-preview
+          [receta]="receta"
+          (showItem)="gotoItem($event)"
+          (add2cart)="addToCart($event)"
+          (add2Favorite)="addToFavorite($event)"
+        ></app-receta-preview>
+      </div>
+    </div>
+  </div>
+</div>

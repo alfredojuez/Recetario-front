@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 
 import { InicioRoutingModule } from './inicio-routing.module';
 import { InicioComponent } from './inicio.component';
-import { RecetaPreviewComponent } from '@shared/receta-preview/receta-preview.component';
 import { RecetaPreviewModule } from '@shared/receta-preview/receta-preview.module';
+import { ListadoCategoriasModule } from '@core/components/listado-categorias/listado-categorias.module';
+import { ListadoRecetasModule } from '@core/components/listado-recetas/listado-recetas.module';
 
 
 @NgModule({
@@ -12,7 +13,7 @@ import { RecetaPreviewModule } from '@shared/receta-preview/receta-preview.modul
   imports: [
     CommonModule,
     InicioRoutingModule,
-    RecetaPreviewModule
+    ListadoRecetasModule
   ]
 })
 export class InicioModule { }

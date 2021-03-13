@@ -1,5 +1,4 @@
-import { TituloComponent } from '@admin/core/components/titulo/titulo.component';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { IReceta } from '@core/interfaces/recetas.interface';
 
 @Component({
@@ -12,36 +11,66 @@ export class RecetaPreviewComponent implements OnInit {
   @Input() titulo = 'título de la categoria';
   @Input() receta: IReceta;
 
+  @Output() showItem: EventEmitter<IReceta> = new EventEmitter();
+  @Output() add2cart: EventEmitter<IReceta> = new EventEmitter();
+  @Output() add2Favorite: EventEmitter<IReceta> = new EventEmitter();
+
+
+  bases = './../../../assets/img/bases/';
+
   constructor() { }
 
   ngOnInit(): void {
-    console.log('Mi receta= ', this.receta);
+    
   }
 
-  ver(receta: any)
+  /**
+   * Visualizará la receta con todo lo que le acompañe
+   * @param receta 
+   */
+  ver(receta: IReceta)
   {
-    console.log('Ver receta');
+    this.showItem.emit(receta);
   }
-  sendMail(receta: any)
+
+  /**
+   * Pedirá información del mail al que enviar el link de la receta,
+   * para que otro usuario reciba la receta.
+   * @param receta 
+   */
+  sendMail(receta: IReceta)
   {
     console.log('Enviar por mail');
   }
 
-  copyLink(receta: any)
+  /**
+   * Copiará el link directo de la receta en memoria para poder
+   *  enviar el link a quien se desee
+   * @param receta 
+   */
+  copyLink(receta: IReceta)
   {
     console.log('Copiar link');
   }
 
-
-  AddtoCart(receta: any)
+  /**
+   * Añadirá la receta al listado personal de menú
+   * @param receta 
+   */
+  AddtoCart(receta: IReceta)
   {
       console.log('Añadir al menú del día');
+      this.add2cart.emit(receta);
   }
 
-
-  favorite(receta: any)
+  /**
+   * Añadirá la receta al listado de favoritos del usuario
+   * @param receta 
+   */
+  favorite(receta: IReceta)
   {
     console.log('Añadir a favoritos');
+    this.add2Favorite.emit(receta);
   }
 
 }

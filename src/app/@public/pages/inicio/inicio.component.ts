@@ -10,18 +10,51 @@ import ListaJSONRecetas from '@datos/recetas.json';
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.scss']
 })
-export class InicioComponent implements OnInit {
-
-  productList;
+export class InicioComponent implements OnInit 
+{
   // private auth: AuthService ->  para hacer uso del API.LOGIN
   constructor(private usersApi: UsersService, private auth: AuthService) { }
   // constructor(private auth: AuthService) { }
-  ListaRecetas: any;
+  ListadoGeneral: any;
+  ListadoTOP: any;
 
   ngOnInit(): void
   {
-    this.ListaRecetas = ListaJSONRecetas;
-    console.log('ListaJSONRecetas: ', ListaJSONRecetas);
+    this.ListadoGeneral = ListaJSONRecetas;
+    this.ListadoTOP = this.fakeRandomRecipes();
+  }
+ 
+  gotoItem($event) {
+    console.log("ini MAIN GOTO")
+    console.log($event);
+  }
+
+  addToCart($event) {
+    console.log("ini MAIN CART")
+    console.log($event);
+  }
+
+  addToFavorite($event) {
+    console.log("ini MAIN FAV")
+    console.log($event);
+  } 
+
+  fakeRandomRecipes()
+  {
+    const list = [];
+    const max = 3;
+    const limit = this.ListadoGeneral.length;
+    console.log("aleatoria")
+    for(let i=0;i<max;)
+    {
+      let aleatoria = this.ListadoGeneral[Math.floor(Math.random( ) * limit)];
+      if(!list.find(element => element == aleatoria))
+      {
+            list.push(aleatoria)
+            i++;
+      }
+    }
+    return list;
   }
 
 }
